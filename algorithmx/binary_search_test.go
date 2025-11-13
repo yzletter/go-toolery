@@ -1,11 +1,11 @@
-package algorithm_test
+package algorithmx_test
 
 import (
 	"math/rand"
 	"sort"
 	"testing"
 
-	"github.com/yzletter/go-toolery/algorithm"
+	"github.com/yzletter/go-toolery/algorithmx"
 )
 
 func TestBoundSearch(t *testing.T) {
@@ -24,7 +24,7 @@ LOOP:
 
 		for j := 0; j < L; j++ {
 			target := arr[j]
-			idx, ok := algorithm.BinarySearch(arr, target)
+			idx, ok := algorithmx.BinarySearch(arr, target)
 			// 未找到或者找到的数据不对
 			if ok == false || arr[idx] < arr[j] {
 				t.Fail()
@@ -33,3 +33,5 @@ LOOP:
 		}
 	}
 }
+
+// go test -v ./algorithmx -run=^TestBoundSearch$ -count=1
