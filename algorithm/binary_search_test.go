@@ -1,7 +1,6 @@
 package algorithm_test
 
 import (
-	"fmt"
 	"math/rand"
 	"sort"
 	"testing"
@@ -25,13 +24,10 @@ LOOP:
 
 		for j := 0; j < L; j++ {
 			target := arr[j]
-			if ans, err := algorithm.BinarySearch(arr, target); err != nil {
+			idx, ok := algorithm.BinarySearch(arr, target)
+			// 未找到或者找到的数据不对
+			if ok == false || arr[idx] < arr[j] {
 				t.Fail()
-				fmt.Println(1)
-				break LOOP
-			} else if arr[ans] != arr[j] {
-				t.Fail()
-				fmt.Println(arr, ans, j)
 				break LOOP
 			}
 		}
