@@ -2,10 +2,12 @@ package treex
 
 // todo 二叉树遍历（三种）
 
+// BinaryTree 二叉树
 type BinaryTree struct {
 	Root *BNode
 }
 
+// NewBinaryTree 根据 root 构造一颗二叉树
 func NewBinaryTree(root *BNode) *BinaryTree {
 	return &BinaryTree{Root: root}
 }

@@ -7,10 +7,10 @@ import (
 	"github.com/yzletter/go-toolery/data_structure/listx"
 )
 
-func TestDoubleList(t *testing.T) {
+func TestLinkedList(t *testing.T) {
 	arr := []int{1, 2, 3, 4, 5}
-	l1 := listx.NewDoubleList[int]()
-	l2 := listx.NewDoubleListFromSlice(arr)
+	l1 := listx.NewLinkedList[int]()
+	l2 := listx.NewLinkedListFromSlice(arr)
 
 	l1.InsertToHead(3)
 	l1.InsertToHead(2)

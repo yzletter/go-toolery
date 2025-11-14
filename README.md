@@ -2,6 +2,8 @@
 
 ## 简介 (Introduction)
 
+个人练手用的现代化的 Go 工具库，聚焦于数据结构、算法实现、工程辅助函数与常用工具组件，在实际工程项目中快速解决常见问题，减少重复造轮子。
+
 ## 算法 (Algorithm)
 
 ### 手写二分查找 (BinarySearch)
@@ -74,6 +76,30 @@ func (list *DoubleList[T]) LastNode() *ListNode[T] {}
 
 ### 手写二叉树 (Treex)
 
+```go
+// BinaryTree 二叉树
+type BinaryTree struct {
+	Root *BNode
+}
+
+// NewBinaryTree 根据 root 构造一颗二叉树
+func NewBinaryTree(root *BNode) *BinaryTree {
+	return &BinaryTree{Root: root}
+}
+
+// PreOrder 二叉树先序遍历, 传入操作节点的函数 operate
+func (bt *BinaryTree) PreOrder(operate func(node *BNode)) {}
+
+// MiddleOrder 二叉树中序遍历, 传入操作节点的函数 operate
+func (bt *BinaryTree) MiddleOrder(operate func(node *BNode)) {}
+
+// PostOrder 二叉树后序遍历, 传入操作节点的函数 operate
+func (bt *BinaryTree) PostOrder(operate func(node *BNode)) {}
+
+```
+
+
+
 ## 标准库辅助
 
 ### Slice 辅助 (Slicex)
@@ -83,6 +109,15 @@ func (list *DoubleList[T]) LastNode() *ListNode[T] {}
 ## 其他
 
 ### PKCS7 数据填充
+
+```go
+// Padding 将数据填充, 填充至 blockSize 的整数倍, 返回填充好的切片
+func Padding(src []byte, blockSize int) []byte {}
+
+// UnPadding 将数据还原, 返回填充好的切片和可能存在的错误
+func UnPadding(src []byte, blockSize int) ([]byte, error) {}
+
+```
 
 ### LRU 
 
