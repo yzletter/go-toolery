@@ -17,3 +17,28 @@ func BinarySearch[T cmp.Ordered](arr []T, target T) (idx int, ok bool) {}
 func QuickSort[T cmp.Ordered](arr []T) {}
 ```
 
+## 数据结构 (DataStructure)
+
+### 手写带头结点的双向循环链表 (Listx)
+
+### 手写集合 (Setx)
+
+### 手写栈 (Stackx)
+
+### 手写双端队列 (DeQueuex)
+
+### 手写堆 (PriorityQueuex)
+
+### 手写并发安全 map (Mapx)
+
+## 标准库辅助
+
+### Slice 辅助 (Slicex)
+
+### Math 辅助 (Mathx)
+
+## 其他
+
+### PKCS7 数据填充
+
+### LRU 
