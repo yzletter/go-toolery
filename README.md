@@ -72,6 +72,40 @@ func (list *DoubleList[T]) LastNode() *ListNode[T] {}
 
 ### 手写堆 (PriorityQueuex)
 
+```go
+// PriorityQueue 堆
+type PriorityQueue[T cmp.Ordered] struct {
+    Data        []T
+    compareFunc func(a, b T) bool
+}
+
+// NewPriorityQueue 构造一个空堆, 传入比较函数
+func NewPriorityQueue[T cmp.Ordered](compareFunc func(a, b T) bool) *PriorityQueue[T] {
+    return &PriorityQueue[T]{
+       Data:        make([]T, 0),
+       compareFunc: compareFunc,
+    }
+}
+
+// Push 新元素入堆
+func (heap *PriorityQueue[T]) Push(val T) {}
+
+// Pop 弹出堆顶, 返回可能的错误
+func (heap *PriorityQueue[T]) Pop() error {}
+
+// Top 返回堆顶元素和可能的错误
+func (heap *PriorityQueue[T]) Top() (T, error) {}
+
+// Size 返回堆的大小
+func (heap *PriorityQueue[T]) Size() int {}
+
+// 将堆底元素向上更新
+func (heap *PriorityQueue[T]) pushUp() {}
+
+// 将堆顶元素向下更新
+func (heap *PriorityQueue[T]) pushDown() {}
+```
+
 ### 手写并发安全 map (Mapx)
 
 ### 手写二叉树 (Treex)
@@ -97,8 +131,6 @@ func (bt *BinaryTree) MiddleOrder(operate func(node *BNode)) {}
 func (bt *BinaryTree) PostOrder(operate func(node *BNode)) {}
 
 ```
-
-
 
 ## 标准库辅助
 
