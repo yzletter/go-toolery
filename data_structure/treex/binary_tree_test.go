@@ -1,0 +1,43 @@
+package treex_test
+
+import (
+	"fmt"
+	"testing"
+
+	"github.com/yzletter/go-toolery/data_structure/treex"
+)
+
+func TestBinaryTree(t *testing.T) {
+	node := &treex.BNode{
+		Val: 5,
+	}
+	root := treex.NewBinaryTree(node)
+	node3 := treex.NewBNode(3)
+	node4 := treex.NewBNode(4)
+	node1 := treex.NewBNode(1)
+	node6 := treex.NewBNode(6)
+	node7 := treex.NewBNode(7)
+	node9 := treex.NewBNode(9)
+
+	root.Root.LeftChind = node3
+	root.Root.RightChind = node4
+	node3.LeftChind = node1
+	node3.RightChind = node6
+	node4.LeftChind = node7
+	node4.RightChind = node9
+
+	//				5
+	//		3				4
+	//	1		6		7		9
+	var printNode = func(node *treex.BNode) {
+		fmt.Printf("%v ", node.Val)
+	}
+	root.PreOrder(printNode) // 前序 : 5 3 1 6 4 7 9
+	fmt.Println()
+	root.MiddleOrder(printNode) // 中序 : 1 3 6 5 7 4 9
+	fmt.Println()
+	root.PostOrder(printNode) // 后序 : 1 6 3 7 9 4 5
+	fmt.Println()
+}
+
+// go test -v ./data_structure/treex -run=^TestBinaryTree$ -count=1

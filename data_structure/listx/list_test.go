@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/yzletter/go-toolery/data_structurex/listx"
+	"github.com/yzletter/go-toolery/data_structure/listx"
 )
 
 func TestDoubleList(t *testing.T) {
