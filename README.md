@@ -80,12 +80,7 @@ type PriorityQueue[T cmp.Ordered] struct {
 }
 
 // NewPriorityQueue 构造一个空堆, 传入比较函数
-func NewPriorityQueue[T cmp.Ordered](compareFunc func(a, b T) bool) *PriorityQueue[T] {
-    return &PriorityQueue[T]{
-       Data:        make([]T, 0),
-       compareFunc: compareFunc,
-    }
-}
+func NewPriorityQueue[T cmp.Ordered](compareFunc func(a, b T) bool) *PriorityQueue[T] {}
 
 // Push 新元素入堆
 func (heap *PriorityQueue[T]) Push(val T) {}
@@ -117,9 +112,7 @@ type BinaryTree struct {
 }
 
 // NewBinaryTree 根据 root 构造一颗二叉树
-func NewBinaryTree(root *BNode) *BinaryTree {
-	return &BinaryTree{Root: root}
-}
+func NewBinaryTree(root *BNode) *BinaryTree {}
 
 // PreOrder 二叉树先序遍历, 传入操作节点的函数 operate
 func (bt *BinaryTree) PreOrder(operate func(node *BNode)) {}
