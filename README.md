@@ -123,6 +123,39 @@ func (stk *Stack[T]) Size() int {}
 
 ### 手写双端队列 (DeQueuex)
 
+```go
+// Dequeue 双端队列
+type Dequeue[T any] struct {
+	Data   []T
+	Length int
+}
+
+// NewDequeue 构造函数
+func NewDequeue[T any]() *Dequeue[T] {}
+
+// PushBack 插到队尾
+func (dq *Dequeue[T]) PushBack(val T) {}
+
+// PushFront 插到队头
+func (dq *Dequeue[T]) PushFront(val T) {}
+
+// PopFront 弹出队头, 返回可能的错误
+func (dq *Dequeue[T]) PopFront() error {}
+
+// PopBack 弹出队尾
+func (dq *Dequeue[T]) PopBack() error {}
+
+// Front 取队头
+func (dq *Dequeue[T]) Front() (T, error) {}
+
+// Back 取队尾
+func (dq *Dequeue[T]) Back() (T, error) {}
+
+// Size 返回队列长度
+func (dq *Dequeue[T]) Size() int {}
+
+```
+
 ### 手写堆 (PriorityQueuex)
 
 ```go

@@ -9,10 +9,15 @@ var (
 
 // PriorityQueuex 错误处理
 var (
-	ErrPriorityQueueEmpty = errors.New("PriorityQueue : 非法访问空堆 ")
+	ErrPriorityQueueEmpty = errors.New("PriorityQueue : 非法访问空堆")
 )
 
 // Stackx 错误处理
 var (
-	ErrStackEmpty = errors.New("Stack : 非法访问空堆 ")
+	ErrStackEmpty = errors.New("Stack : 非法访问空栈 ")
+)
+
+// Queuex 错误处理
+var (
+	ErrDequeueEmpty = errors.New("Dequeue : 非法访问空队 ")
 )
