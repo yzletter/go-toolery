@@ -2,8 +2,6 @@ package stackx
 
 import "github.com/yzletter/go-toolery/errx"
 
-// todo 栈
-
 // Stack 栈
 type Stack[T any] struct {
 	Data []T

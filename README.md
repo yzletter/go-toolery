@@ -10,6 +10,7 @@
 ```go
 // 返回 arr 中第一个大于等于 target 的元素的下标, 返回 下标位置, 是否找到
 func BinarySearch[T cmp.Ordered](arr []T, target T) (idx int, ok bool) {}
+
 ```
 
 ### 手写快排 (QuickSort)
@@ -17,6 +18,7 @@ func BinarySearch[T cmp.Ordered](arr []T, target T) (idx int, ok bool) {}
 ```go
 // 原地快速排序
 func QuickSort[T cmp.Ordered](arr []T) {}
+
 ```
 
 ## 数据结构 (DataStructure)
@@ -62,11 +64,62 @@ func (list *DoubleList[T]) Values() []T {}
 
 // LastNode 返回最后一个节点
 func (list *DoubleList[T]) LastNode() *ListNode[T] {}
+
 ```
 
 ### 手写集合 (Setx)
 
+```go
+// EmptyStruct 空结构体
+type EmptyStruct struct{}
+
+// Set 集合
+type Set[T comparable] map[T]EmptyStruct
+
+// NewSet 构造函数
+func NewSet[T comparable]() Set[T] {}
+
+// Insert 插入一个新元素
+func (hash Set[T]) Insert(val T) {}
+
+// Delete 删除一个元素
+func (hash Set[T]) Delete(val T) {}
+
+// Exist 查询一个元素
+func (hash Set[T]) Exist(val T) bool {}
+
+// Size 返回集合中元素个数
+func (hash Set[T]) Size() int {}
+
+// Values 返回集合中所有元素的切片
+func (hash Set[T]) Values() []T {}
+
+```
+
 ### 手写栈 (Stackx)
+
+```go
+// Stack 栈
+type Stack[T any] struct {
+	Data []T
+}
+
+// NewStack 构造函数
+func NewStack[T any]() *Stack[T] {}
+
+// Top 取栈顶元素, 返回栈顶元素和可能的错误
+func (stk *Stack[T]) Top() (T, error) {}
+
+// Pop 弹出栈顶, 返回可能的错误
+func (stk *Stack[T]) Pop() error {}
+
+// Push 新元素入栈
+func (stk *Stack[T]) Push(val T) {}
+
+// Size 返回栈的长度
+func (stk *Stack[T]) Size() int {}
+
+```
 
 ### 手写双端队列 (DeQueuex)
 
@@ -99,6 +152,7 @@ func (heap *PriorityQueue[T]) pushUp() {}
 
 // 将堆顶元素向下更新
 func (heap *PriorityQueue[T]) pushDown() {}
+
 ```
 
 ### 手写并发安全 map (Mapx)
