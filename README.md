@@ -10,7 +10,6 @@
 ```go
 // 返回 arr 中第一个大于等于 target 的元素的下标, 返回 下标位置, 是否找到
 func BinarySearch[T cmp.Ordered](arr []T, target T) (idx int, ok bool) {}
-
 ```
 
 ### 手写快排 (QuickSort)
@@ -18,7 +17,6 @@ func BinarySearch[T cmp.Ordered](arr []T, target T) (idx int, ok bool) {}
 ```go
 // 原地快速排序
 func QuickSort[T cmp.Ordered](arr []T) {}
-
 ```
 
 ## 数据结构 (DataStructure)
@@ -64,7 +62,6 @@ func (list *DoubleList[T]) Values() []T {}
 
 // LastNode 返回最后一个节点
 func (list *DoubleList[T]) LastNode() *ListNode[T] {}
-
 ```
 
 ### 手写集合 (Setx)
@@ -93,7 +90,6 @@ func (hash Set[T]) Size() int {}
 
 // Values 返回集合中所有元素的切片
 func (hash Set[T]) Values() []T {}
-
 ```
 
 ### 手写栈 (Stackx)
@@ -118,7 +114,6 @@ func (stk *Stack[T]) Push(val T) {}
 
 // Size 返回栈的长度
 func (stk *Stack[T]) Size() int {}
-
 ```
 
 ### 手写双端队列 (DeQueuex)
@@ -153,7 +148,6 @@ func (dq *Dequeue[T]) Back() (T, error) {}
 
 // Size 返回队列长度
 func (dq *Dequeue[T]) Size() int {}
-
 ```
 
 ### 手写堆 (PriorityQueuex)
@@ -185,7 +179,6 @@ func (heap *PriorityQueue[T]) pushUp() {}
 
 // 将堆顶元素向下更新
 func (heap *PriorityQueue[T]) pushDown() {}
-
 ```
 
 ### 手写并发安全 map (Mapx)
@@ -209,14 +202,23 @@ func (bt *BinaryTree) MiddleOrder(operate func(node *BNode)) {}
 
 // PostOrder 二叉树后序遍历, 传入操作节点的函数 operate
 func (bt *BinaryTree) PostOrder(operate func(node *BNode)) {}
-
 ```
 
 ## 标准库辅助
 
 ### Slice 辅助 (Slicex)
 
+```go
+// Unique 借助 set 去重, 返回无序的去重切片
+func Unique[T comparable](target []T) []T {}
+```
+
 ### Math 辅助 (Mathx)
+
+```go
+// QMI 快速幂求 a ^ k % p
+func QMI(a, k, p int) int {}
+```
 
 ## 其他
 
@@ -228,7 +230,6 @@ func Padding(src []byte, blockSize int) []byte {}
 
 // UnPadding 将数据还原, 返回填充好的切片和可能存在的错误
 func UnPadding(src []byte, blockSize int) ([]byte, error) {}
-
 ```
 
 ### LRU 

@@ -26,7 +26,12 @@ func (dq *Dequeue[T]) PushBack(val T) {
 
 // PushFront 插到队头
 func (dq *Dequeue[T]) PushFront(val T) {
-	dq.Data = append(append([]T(nil), val), dq.Data...)
+	//dq.Data = append(append([]T(nil), val), dq.Data...) 效率低
+
+	dq.Data = append(dq.Data, val)
+	copy(dq.Data[1:], dq.Data[:])
+	dq.Data[0] = val
+	
 	dq.Length++
 }
 
