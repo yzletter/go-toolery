@@ -21,7 +21,7 @@ func UnPadding(src []byte, blockSize int) ([]byte, error) {
 	srcLen := len(src) // 源数据长度
 	// 判断合法
 	if srcLen%blockSize != 0 || srcLen < blockSize {
-		return nil, errx.ErrInvalidParam
+		return nil, errx.ErrPKCS7InvalidParam
 	}
 	padLen := int(src[srcLen-1]) // 填充的长度
 	return src[:srcLen-padLen], nil

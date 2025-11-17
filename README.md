@@ -220,6 +220,13 @@ func Unique[T comparable](target []T) []T {}
 func QMI(a, k, p int) int {}
 ```
 
+### Rand 辅助 (Randx)
+
+```go
+// RandString 根据传入的种子, 生成长度为 len 的随机字符串
+func RandString(seed string, length int) string {}
+```
+
 ## 其他
 
 ### PKCS7 数据填充

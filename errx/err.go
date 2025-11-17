@@ -2,22 +2,14 @@ package errx
 
 import "errors"
 
-// Otherx 错误处理
+// 非法访问错误
 var (
-	ErrInvalidParam = errors.New("PKCS7 : UnPadding 传入非法参数")
+	ErrStackEmpty         = errors.New("go-toolery stackx : 非法访问空栈 ")
+	ErrDequeueEmpty       = errors.New("go-toolery queuex : 非法访问空队 ")
+	ErrPriorityQueueEmpty = errors.New("go-toolery priorityqueuex : 非法访问空堆 ")
 )
 
-// PriorityQueuex 错误处理
+// 其他错误处理
 var (
-	ErrPriorityQueueEmpty = errors.New("PriorityQueue : 非法访问空堆")
-)
-
-// Stackx 错误处理
-var (
-	ErrStackEmpty = errors.New("Stack : 非法访问空栈 ")
-)
-
-// Queuex 错误处理
-var (
-	ErrDequeueEmpty = errors.New("Dequeue : 非法访问空队 ")
+	ErrPKCS7InvalidParam = errors.New("go-toolery otherx : PKCS7 UnPadding 传入非法参数")
 )
