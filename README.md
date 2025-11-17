@@ -239,6 +239,14 @@ func Padding(src []byte, blockSize int) []byte {}
 func UnPadding(src []byte, blockSize int) ([]byte, error) {}
 ```
 
-### LRU 
-
 ### Jaccard 相似度
+
+```go
+// Jaccard 计算相似度 = 交集 / 并集
+func Jaccard[T comparable](collection1, collection2 []T) float64 {}
+
+// JaccardForSorted 计算有序集合的相似度
+func JaccardForSorted[T cmp.Ordered](collection1, collection2 []T) float64 {}
+```
+
+### LRU 
