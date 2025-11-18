@@ -1,6 +1,8 @@
 package treex
 
-// todo 二叉树遍历（三种）
+import (
+	"github.com/yzletter/go-toolery/data_structure/dequeuex"
+)
 
 // BinaryTree 二叉树
 type BinaryTree struct {
@@ -12,28 +14,50 @@ func NewBinaryTree(root *BNode) *BinaryTree {
 	return &BinaryTree{Root: root}
 }
 
-// PreOrder 二叉树先序遍历, 传入操作节点的函数 operate
-func (bt *BinaryTree) PreOrder(operate func(node *BNode)) {
+// PreOrder 二叉树先序遍历, 传入操作节点的函数 BNodeOperationFunc
+func (bt *BinaryTree) PreOrder(operate BNodeOperationFunc) {
 	if bt.Root == nil {
 		return
 	}
 	bt.Root.preOrder(operate)
 }
 
-// MiddleOrder 二叉树中序遍历, 传入操作节点的函数 operate
-func (bt *BinaryTree) MiddleOrder(operate func(node *BNode)) {
+// MiddleOrder 二叉树中序遍历, 传入操作节点的函数 BNodeOperationFunc
+func (bt *BinaryTree) MiddleOrder(operate BNodeOperationFunc) {
 	if bt.Root == nil {
 		return
 	}
 	bt.Root.middleOrder(operate)
 }
 
-// PostOrder 二叉树后序遍历, 传入操作节点的函数 operate
-func (bt *BinaryTree) PostOrder(operate func(node *BNode)) {
+// PostOrder 二叉树后序遍历, 传入操作节点的函数 BNodeOperationFunc
+func (bt *BinaryTree) PostOrder(operate BNodeOperationFunc) {
 	if bt.Root == nil {
 		return
 	}
 	bt.Root.postOrder(operate)
 }
 
-// todo 二叉树层序遍历
+// LevelOrder 二叉树层序遍历, 传入操作节点的函数 BNodeOperationFunc
+func (bt *BinaryTree) LevelOrder(operate BNodeOperationFunc) {
+	q := dequeuex.NewDequeue[*BNode]()
+	q.PushBack(bt.Root)
+	for q.Size() > 0 {
+		node, err := q.Front()
+		if err != nil {
+			return
+		}
+		err = q.PopFront()
+		if err != nil {
+			return
+		}
+
+		operate(node)
+		if node.LeftChind != nil {
+			q.PushBack(node.LeftChind)
+		}
+		if node.RightChind != nil {
+			q.PushBack(node.RightChind)
+		}
+	}
+}

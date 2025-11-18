@@ -1,5 +1,8 @@
 package treex
 
+// NodeOperationFunc 对二叉树节点的操作函数
+type BNodeOperationFunc func(node *BNode)
+
 // BNode 二叉树节点
 type BNode struct {
 	Val        any

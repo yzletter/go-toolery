@@ -38,6 +38,7 @@ func TestBinaryTree(t *testing.T) {
 	fmt.Println()
 	root.PostOrder(printNode) // 后序 : 1 6 3 7 9 4 5
 	fmt.Println()
+	root.LevelOrder(printNode)
 }
 
 // go test -v ./data_structure/treex -run=^TestBinaryTree$ -count=1
