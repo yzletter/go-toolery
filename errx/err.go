@@ -11,5 +11,6 @@ var (
 
 // 其他错误处理
 var (
+	ErrNilSlice          = errors.New("go-toolery otherx : Jaccard 传入切片为空")
 	ErrPKCS7InvalidParam = errors.New("go-toolery otherx : PKCS7 UnPadding 传入非法参数")
 )
