@@ -194,14 +194,17 @@ type BinaryTree struct {
 // NewBinaryTree 根据 root 构造一颗二叉树
 func NewBinaryTree(root *BNode) *BinaryTree {}
 
-// PreOrder 二叉树先序遍历, 传入操作节点的函数 operate
-func (bt *BinaryTree) PreOrder(operate func(node *BNode)) {}
+// PreOrder 二叉树先序遍历, 传入操作节点的函数 BNodeOperationFunc
+func (bt *BinaryTree) PreOrder(operate BNodeOperationFunc) {}
 
-// MiddleOrder 二叉树中序遍历, 传入操作节点的函数 operate
-func (bt *BinaryTree) MiddleOrder(operate func(node *BNode)) {}
+// MiddleOrder 二叉树中序遍历, 传入操作节点的函数 BNodeOperationFunc
+func (bt *BinaryTree) MiddleOrder(operate BNodeOperationFunc) {}
 
-// PostOrder 二叉树后序遍历, 传入操作节点的函数 operate
-func (bt *BinaryTree) PostOrder(operate func(node *BNode)) {}
+// PostOrder 二叉树后序遍历, 传入操作节点的函数 BNodeOperationFunc
+func (bt *BinaryTree) PostOrder(operate BNodeOperationFunc) {}
+
+// LevelOrder 二叉树层序遍历, 传入操作节点的函数 BNodeOperationFunc
+func (bt *BinaryTree) LevelOrder(operate BNodeOperationFunc) {}
 ```
 
 ## 标准库辅助
@@ -225,6 +228,13 @@ func QMI(a, k, p int) int {}
 ```go
 // RandString 根据传入的种子, 生成长度为 len 的随机字符串
 func RandString(seed string, length int) string {}
+```
+
+### Function 辅助 (Standardx)
+
+```go
+// Ternary 三目运算符, 传入 bool 和可能返回的两个变量
+func Ternary[T any](condition bool, a, b T) T {}
 ```
 
 ## 其他
