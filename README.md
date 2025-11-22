@@ -54,14 +54,17 @@ func (list *DoubleList[T]) InsertBefore(val T, node *ListNode[T]) {}
 // InsertAfter 在 node 后面添加一个数据为 val 的新节点
 func (list *DoubleList[T]) InsertAfter(val T, node *ListNode[T]) {}
 
-// FindNode 寻找从 0 开始下标为 idx 的节点, 若不存在则返回 nil
-func (list *DoubleList[T]) FindNode(idx int) (node *ListNode[T]) {}
+// FindNode 寻找从 0 开始下标为 idx 的节点, 返回节点和可能的错误
+func (list *LinkedList[T]) FindNode(idx int) (node *ListNode[T], err error) {}
 
 // Values 将链表值转为切片
-func (list *DoubleList[T]) Values() []T {}
+func (list *LinkedList[T]) Values() []T {}
 
-// LastNode 返回最后一个节点
-func (list *DoubleList[T]) LastNode() *ListNode[T] {}
+// LastNode 返回最后一个节点和可能的错误
+func (list *LinkedList[T]) LastNode() (*ListNode[T], error) {}
+
+// FirstNode 返回第一个节点和可能的错误
+func (list *LinkedList[T]) FirstNode() (*ListNode[T], error) {}
 ```
 
 ### 手写集合 (Setx)

@@ -1,10 +1,12 @@
 package listx_test
 
 import (
+	"errors"
 	"fmt"
 	"testing"
 
 	"github.com/yzletter/go-toolery/data_structure/listx"
+	"github.com/yzletter/go-toolery/errx"
 )
 
 func TestLinkedList(t *testing.T) {
@@ -28,15 +30,32 @@ func TestLinkedList(t *testing.T) {
 	l2.ReverseTraverse(printNodeInformation)
 	fmt.Println()
 	fmt.Printf("将链表 l1 转为切片: %v\n", l1.Values())
-	fmt.Printf("链表 l1 最后一个节点: %v\n", l1.LastNode())
-	fmt.Printf("链表 l1 下标为 2 的节点: %v\n", l1.FindNode(2))
-	fmt.Printf("链表 l1 下标为 -1 的节点: %v\n", l1.FindNode(-1)) // 预期为空 :
+	node, err := l1.LastNode()
+	if err != nil {
+		t.Fail()
+	}
+	fmt.Printf("链表 l1 最后一个节点: %v\n", node)
+	node, err = l1.FindNode(2)
+	if err != nil {
+		t.Fail()
+	}
+	fmt.Printf("链表 l1 下标为 2 的节点: %v\n", node)
+	node, err = l1.FindNode(-1)
+	if !errors.Is(err, errx.ErrLinkedListInvalidParam) { // 若检测不出参数错误, 则测试失败
+		t.Fail()
+	}
+	fmt.Printf("链表 l1 下标为 -1 的节点: %v\n", node) // 预期为空 :
 
 	// 在下标为 3 的节点前后各插一个 6
-	node := l1.FindNode(3)
+	node, err = l1.FindNode(3)
+	if err != nil {
+		t.Fail()
+	}
 	l1.InsertBefore(6, node)
 	l1.InsertAfter(6, node)
 	fmt.Println("在下标为 3 的节点前后各插一个 6 : ")
 	// 预期结果 : 1 2 3 6 4 6 5
 	l1.Traverse(printNodeInformation)
 }
+
+// go test -v ./data_structure/listx -run=^TestLinkedList$ -count=1

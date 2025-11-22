@@ -2,6 +2,8 @@ package listx
 
 import (
 	"cmp"
+
+	"github.com/yzletter/go-toolery/errx"
 )
 
 // LinkedList 带头节点的双向循环链表
@@ -84,17 +86,17 @@ func (list *LinkedList[T]) InsertAfter(val T, node *ListNode[T]) {
 	list.Length += 1
 }
 
-// FindNode 寻找从 0 开始下标为 idx 的节点, 若不存在则返回 nil
-func (list *LinkedList[T]) FindNode(idx int) (node *ListNode[T]) {
+// FindNode 寻找从 0 开始下标为 idx 的节点, 返回节点和可能的错误
+func (list *LinkedList[T]) FindNode(idx int) (node *ListNode[T], err error) {
 	if idx < 0 || idx >= list.Length { // 判断下标是否合法
-		return nil
+		return nil, errx.ErrLinkedListInvalidParam
 	}
 	// 遍历节点
 	nowNode := list.Head.Next
 	for i := 0; i < idx; i++ {
 		nowNode = nowNode.Next
 	}
-	return nowNode
+	return nowNode, nil
 }
 
 // Values 将链表值转为切片
@@ -110,16 +112,23 @@ func (list *LinkedList[T]) Values() []T {
 	return arr
 }
 
-// LastNode 返回最后一个节点
-func (list *LinkedList[T]) LastNode() *ListNode[T] {
+// LastNode 返回最后一个节点和可能的错误
+func (list *LinkedList[T]) LastNode() (*ListNode[T], error) {
 	if list.Length == 0 {
-		return nil
+		return nil, errx.ErrLinkedListEmpty
 	}
-	return list.Head.Prev
+	return list.Head.Prev, nil
+}
+
+// FirstNode 返回第一个节点和可能的错误
+func (list *LinkedList[T]) FirstNode() (*ListNode[T], error) {
+	if list.Length == 0 {
+		return nil, errx.ErrLinkedListEmpty
+	}
+	return list.Head.Next, nil
 }
 
 // todo
-// 返回第一个节点
 // 翻转链表（非原地）
 // 翻转链表 (原地）
 // 有序链表去重
