@@ -4,6 +4,60 @@
 
 个人练手用的现代化的 Go 工具库，聚焦于数据结构、算法实现、工程辅助函数与常用工具组件，在实际工程项目中快速解决常见问题，减少重复造轮子。
 
+## 目录结构
+
+```
+./
+├── README.md
+├── algorithmx
+│   ├── binary_search.go
+│   ├── binary_search_test.go
+│   ├── quick_sort.go
+│   └── quick_sort_test.go
+├── data_structure
+│   ├── dequeuex
+│   │   ├── queue.go
+│   │   └── queue_test.go
+│   ├── listx
+│   │   ├── list.go
+│   │   ├── list_test.go
+│   │   └── node.go
+│   ├── priority_queuex
+│   │   ├── priority_queue.go
+│   │   └── priority_queue_test.go
+│   ├── setx
+│   │   ├── set.go
+│   │   └── set_test.go
+│   ├── stackx
+│   │   ├── stack.go
+│   │   └── stack_test.go
+│   └── treex
+│       ├── binary_tree.go
+│       ├── binary_tree_test.go
+│       └── node.go
+├── errx
+│   └── err.go
+├── go.mod
+├── otherx
+│   ├── jaccard.go
+│   ├── jaccard_test.go
+│   ├── pkcs7.go
+│   └── pkcs7_test.go
+└── standard
+    ├── mathx
+    │   ├── math.go
+    │   └── math_test.go
+    ├── randx
+    │   ├── string.go
+    │   └── string_test.go
+    ├── slicex
+    │   ├── slice.go
+    │   └── slice_test.go
+    └── standardx
+        ├── function.go
+        └── function_test.go
+```
+
 ## 算法 (Algorithm)
 
 ### 手写二分查找 (BinarySearch)
