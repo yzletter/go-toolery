@@ -238,8 +238,6 @@ func (heap *PriorityQueue[T]) pushUp() {}
 func (heap *PriorityQueue[T]) pushDown() {}
 ```
 
-### 手写并发安全 map (Mapx)
-
 ### 手写二叉树 (Treex)
 
 ```go
