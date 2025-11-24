@@ -5,14 +5,14 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/yzletter/go-toolery/data_structure/listx"
 	"github.com/yzletter/go-toolery/errx"
+	listx2 "github.com/yzletter/go-toolery/listx"
 )
 
 func TestLinkedList(t *testing.T) {
 	arr := []int{1, 2, 3, 4, 5}
-	l1 := listx.NewLinkedList[int]()
-	l2 := listx.NewLinkedListFromSlice(arr)
+	l1 := listx2.NewLinkedList[int]()
+	l2 := listx2.NewLinkedListFromSlice(arr)
 
 	l1.InsertToHead(3)
 	l1.InsertToHead(2)
@@ -21,7 +21,7 @@ func TestLinkedList(t *testing.T) {
 	l1.InsertToTail(5)
 
 	// 打印每个节点
-	var printNodeInformation = func(node *listx.ListNode[int]) { fmt.Printf("%v ", node.Val) }
+	var printNodeInformation = func(node *listx2.ListNode[int]) { fmt.Printf("%v ", node.Val) }
 
 	fmt.Print("正序遍历链表 l1 : ")
 	l1.Traverse(printNodeInformation)

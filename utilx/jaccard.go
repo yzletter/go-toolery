@@ -1,10 +1,10 @@
-package otherx
+package utilx
 
 import (
 	"cmp"
 
-	"github.com/yzletter/go-toolery/data_structure/setx"
 	"github.com/yzletter/go-toolery/errx"
+	"github.com/yzletter/go-toolery/setx"
 )
 
 // Jaccard 计算相似度 = 交集 / 并集

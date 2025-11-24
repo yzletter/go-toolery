@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/yzletter/go-toolery/standard/standardx"
+	"github.com/yzletter/go-toolery/standardx"
 )
 
 func TestTernary(t *testing.T) {

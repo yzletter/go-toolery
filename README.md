@@ -14,48 +14,48 @@
 │   ├── binary_search_test.go
 │   ├── quick_sort.go
 │   └── quick_sort_test.go
-├── data_structure
-│   ├── dequeuex
-│   │   ├── queue.go
-│   │   └── queue_test.go
-│   ├── listx
-│   │   ├── list.go
-│   │   ├── list_test.go
-│   │   └── node.go
-│   ├── priority_queuex
-│   │   ├── priority_queue.go
-│   │   └── priority_queue_test.go
-│   ├── setx
-│   │   ├── set.go
-│   │   └── set_test.go
-│   ├── stackx
-│   │   ├── stack.go
-│   │   └── stack_test.go
-│   └── treex
-│       ├── binary_tree.go
-│       ├── binary_tree_test.go
-│       └── node.go
+├── dequeuex
+│   ├── queue.go
+│   └── queue_test.go
 ├── errx
 │   └── err.go
 ├── go.mod
-├── otherx
-│   ├── jaccard.go
-│   ├── jaccard_test.go
-│   ├── pkcs7.go
-│   └── pkcs7_test.go
-└── standard
-    ├── mathx
-    │   ├── math.go
-    │   └── math_test.go
-    ├── randx
-    │   ├── string.go
-    │   └── string_test.go
-    ├── slicex
-    │   ├── slice.go
-    │   └── slice_test.go
-    └── standardx
-        ├── function.go
-        └── function_test.go
+├── listx
+│   ├── list.go
+│   ├── list_test.go
+│   └── node.go
+├── mathx
+│   ├── math.go
+│   └── math_test.go
+├── priority_queuex
+│   ├── priority_queue.go
+│   └── priority_queue_test.go
+├── randx
+│   ├── string.go
+│   └── string_test.go
+├── setx
+│   ├── set.go
+│   └── set_test.go
+├── slicex
+│   ├── slice.go
+│   └── slice_test.go
+├── stackx
+│   ├── stack.go
+│   └── stack_test.go
+├── standardx
+│   ├── function.go
+│   └── function_test.go
+├── treex
+│   ├── binary_tree.go
+│   ├── binary_tree_test.go
+│   └── node.go
+└── utilx
+    ├── jaccard.go
+    ├── jaccard_test.go
+    ├── jwt.go
+    ├── jwt_test.go
+    ├── pkcs7.go
+    └── pkcs7_test.go
 ```
 
 ## 算法 (Algorithm)
@@ -290,6 +290,9 @@ func RandString(seed string, length int) string {}
 ```go
 // Ternary 三目运算符, 传入 bool 和可能返回的两个变量
 func Ternary[T any](condition bool, a, b T) T {}
+
+// Hash 返回字符串 MD5 哈希后 32 位的十六进制编码结果
+func Hash(password string) string {}
 ```
 
 ## 其他

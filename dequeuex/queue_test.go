@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/yzletter/go-toolery/data_structure/dequeuex"
+	"github.com/yzletter/go-toolery/dequeuex"
 )
 
 func TestDequeue(t *testing.T) {

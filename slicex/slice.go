@@ -1,6 +1,8 @@
 package slicex
 
-import "github.com/yzletter/go-toolery/data_structure/setx"
+import (
+	"github.com/yzletter/go-toolery/setx"
+)
 
 // Unique 借助 set 去重, 返回无序的去重切片
 func Unique[T comparable](target []T) []T {

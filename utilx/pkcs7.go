@@ -1,4 +1,4 @@
-package otherx
+package utilx
 
 import (
 	"bytes"
