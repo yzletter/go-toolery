@@ -32,10 +32,8 @@ func GenJWT(payload JwtPayload, secret string) (string, error) {
 	}
 
 	// 3. 根据 msg 使用 secret 进行加密得到签名 signature
-	jwtMsg := part1 + "." + part2                                       // JWT 信息部分
-	hash := hmac.New(sha256.New, []byte(secret))                        // 根据 secret 生成 sha256 哈希算法器
-	hash.Write([]byte(jwtMsg))                                          // 写入 msg
-	jwtSignature := base64.RawURLEncoding.EncodeToString(hash.Sum(nil)) // 哈希结果进行 base64 编码, 得到第三部分
+	jwtMsg := part1 + "." + part2              // JWT 信息部分
+	jwtSignature := signSha256(jwtMsg, secret) // JWT 签名部分
 
 	return jwtMsg + "." + jwtSignature, nil
 }
@@ -58,9 +56,7 @@ func VerifyJWT(jwtToken string, secret string) (*JwtPayload, error) {
 
 	// 1. 签名校验
 	// 对 jwtMsg 加密得到 thisSignature 判断与 jwtSignature 是否相同
-	hash := hmac.New(sha256.New, []byte(secret))
-	hash.Write([]byte(jwtMsg))
-	thisSignature := base64.RawURLEncoding.EncodeToString(hash.Sum(nil))
+	thisSignature := signSha256(jwtMsg, secret)
 	if thisSignature != jwtSignature {
 		// 签名校验失败
 		return nil, errx.ErrJwtInvalidParam
@@ -120,4 +116,11 @@ func base64DecodeUnmarshal(s string, v any) error {
 		return errx.ErrJwtUnMarshalFailed
 	}
 	return nil
+}
+
+// 用 sha256 哈希算法生成 JWT 签名, 传入 JWT Token 的前两部分和密钥, 返回生成的签名字符串
+func signSha256(jwtMsg string, secret string) string {
+	hash := hmac.New(sha256.New, []byte(secret))               // 根据 secret 生成 sha256 哈希算法器
+	hash.Write([]byte(jwtMsg))                                 // 将 jwtMsg 写入
+	return base64.RawURLEncoding.EncodeToString(hash.Sum(nil)) // 对哈希结果进行 base64 编码
 }

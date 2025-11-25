@@ -311,6 +311,9 @@ func marshalBase64Encode(v any) (string, error) {}
 
 // 对字符串依次进行 base64 解码和 json 反序列化
 func base64DecodeUnmarshal(s string, v any) error {}
+
+// 用 sha256 哈希算法生成 JWT 签名, 传入 JWT Token 的前两部分和密钥, 返回生成的签名字符串
+func signSha256(jwtMsg string, secret string) string {}
 ```
 
 ### 手写 PKCS7 数据填充
