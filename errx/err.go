@@ -16,3 +16,11 @@ var (
 	ErrPKCS7InvalidParam      = errors.New("go-toolery utilx : PKCS7 UnPadding 传入非法参数")
 	ErrLinkedListInvalidParam = errors.New("go-toolery utilx : LinkedList 传入非法参数")
 )
+
+var (
+	ErrJwtInvalidParam       = errors.New("go-toolery jwtx : Jwt 传入非法参数")
+	ErrJwtMarshalFailed      = errors.New("go-toolery jwtx : Jwt json 序列化失败")
+	ErrJwtBase64DecodeFailed = errors.New("go-toolery jwtx : Jwt json base64 解码失败")
+	ErrJwtUnMarshalFailed    = errors.New("go-toolery jwtx : Jwt json 反序列化失败")
+	ErrJwtInvalidTime        = errors.New("go-toolery jwtx : Jwt 时间错误")
+)
