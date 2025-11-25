@@ -20,6 +20,10 @@
 ├── errx
 │   └── err.go
 ├── go.mod
+├── jwtx
+│   ├── jwt.go
+│   ├── jwt_test.go
+│   └── types.go
 ├── listx
 │   ├── list.go
 │   ├── list_test.go
@@ -52,8 +56,6 @@
 └── utilx
     ├── jaccard.go
     ├── jaccard_test.go
-    ├── jwt.go
-    ├── jwt_test.go
     ├── pkcs7.go
     └── pkcs7_test.go
 ```
