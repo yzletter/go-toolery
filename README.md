@@ -295,9 +295,25 @@ func Ternary[T any](condition bool, a, b T) T {}
 func Hash(password string) string {}
 ```
 
-## 其他
+## 工程辅助
 
-### PKCS7 数据填充
+### 手写 JWT 认证 (Jwtx)
+
+```go
+// GenJWT 根据 payload 和 secret 生成 JWT, 返回生成的 JWT token 和可能的错误
+func GenJWT(payload JwtPayload, secret string) (string, error) {}
+
+// VerifyJWT 根据传入的 JWT token 和 secret 校验 JWT 的合法性
+func VerifyJWT(jwtToken string, secret string) (*JwtPayload, error) {}
+
+// 对结构体依次进行 json 序列化和 base64 编码
+func marshalBase64Encode(v any) (string, error) {}
+
+// 对字符串依次进行 base64 解码和 json 反序列化
+func base64DecodeUnmarshal(s string, v any) error {}
+```
+
+### 手写 PKCS7 数据填充
 
 ```go
 // Padding 将数据填充, 填充至 blockSize 的整数倍, 返回填充好的切片
@@ -307,7 +323,7 @@ func Padding(src []byte, blockSize int) []byte {}
 func UnPadding(src []byte, blockSize int) ([]byte, error) {}
 ```
 
-### Jaccard 相似度
+### 手写 Jaccard 相似度
 
 ```go
 // Jaccard 计算相似度 = 交集 / 并集
