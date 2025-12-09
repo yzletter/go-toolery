@@ -95,7 +95,7 @@ func listenTerminal(collector *LogCollector) {
 
 func main() {
 	port := flag.Int("port", 4321, "udp server port")
-	logFile := flag.String("log", "./loggerx/log/udp_collect", "log sink")
+	logFile := flag.String("log", "./loggerx/test/udp_collect", "log sink")
 	flag.Parse()
 	collector, err := NewLogCollector(*port, *logFile+".log")
 	if err != nil {

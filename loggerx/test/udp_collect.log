@@ -1,0 +1,4 @@
+[127.0.0.1:65082] [DEBUG] go-toolery/loggerx/log.go:179 这是一条debug日志
+[127.0.0.1:65082] [INFO] go-toolery/loggerx/log.go:223 这是一条info日志
+[127.0.0.1:65082] [WARN] go-toolery/loggerx/log.go:201 这是一条warn日志
+[127.0.0.1:65082] [ERROR] go-toolery/loggerx/log.go:252 这是一条error日志

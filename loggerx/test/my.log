@@ -1,0 +1,9 @@
+2025/12/10 00:20:16.795727 [DEBUG] go-toolery/loggerx/log.go:179 这是一条debug日志
+2025/12/10 00:20:16.795757 [INFO] go-toolery/loggerx/log.go:223 这是一条info日志
+2025/12/10 00:20:16.795763 [WARN] go-toolery/loggerx/log.go:201 这是一条warn日志
+2025/12/10 00:20:16.795767 [ERROR] go-toolery/loggerx/log.go:252 这是一条error日志
+	loggerx/test/main.go:25
+	loggerx/test/main.go:12
+	loggerx/test/main.go:8
+	src/runtime/proc.go:285
+	src/runtime/asm_arm64.s:1268

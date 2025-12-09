@@ -13,9 +13,14 @@ func a() {
 }
 
 func b() {
-	log := loggerx.NewLog("./loggerx/log/my.log", loggerx.DebugLevel)
+	logger := loggerx.NewLog("./loggerx/test/my.log", loggerx.DebugLevel)
 	//log := loggerx.NewLog("", loggerx.DebugLevel)
-	log.Debug("1")
-	log.Info("1")
-	log.Error("1")
+	defer logger.Close()
+	logger.AddStackTrace()
+	logger.SetUDPProducer("127.0.0.1:4321")
+
+	logger.Debugf("这是一条%s日志", "debug")
+	logger.Infof("这是一条%s日志", "info")
+	logger.Warnf("这是一条%s日志", "warn")
+	logger.Errorf("这是一条%s日志", "error")
 }

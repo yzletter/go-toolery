@@ -297,6 +297,54 @@ func Ternary[T any](condition bool, a, b T) T {}
 func Hash(password string) string {}
 ```
 
+### Log 辅助 (Loggerx)
+
+```go
+type Log struct {
+	logger        *log.Logger // 基本库日志
+	logFile       string      // 日志输出文件名
+	logOut        *os.File    // 日志输出文件句柄
+	logLevel      int         // 日志等级
+	writeLock     sync.Mutex  // 锁
+	addStackTrace bool        // 是否需要打印堆栈, 默认为 false
+	udpProducer   *udp_logger.LogProducer
+}
+
+func NewLog(logFile string, logLevel int) *Log {}
+
+// AddStackTrace 日志会打印三层调用堆栈
+func (l *Log) AddStackTrace() {}
+
+// SetUDPProducer 设置 UDP Producer
+func (l *Log) SetUDPProducer(collectorAddr string) {}
+
+func (l *Log) Close() {}
+
+// 滚动
+func (l *Log) rotate() {}
+
+func (l *Log) print(level int, content string) {}
+
+func (l *Log) Debug(content string) {}
+
+func (l *Log) Debugf(format string, v ...any) {}
+
+func (l *Log) Warn(content string) {}
+
+func (l *Log) Warnf(format string, v ...any) {}
+
+func (l *Log) Info(content string) {}
+
+func (l *Log) Infof(format string, v ...any) {}
+
+func (l *Log) Error(content string) {}
+
+func (l *Log) Errorf(format string, v ...any) {}
+
+```
+
+
+
 ## 工程辅助
 
 ### 手写 JWT 认证 (Jwtx)
