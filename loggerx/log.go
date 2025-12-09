@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/yzletter/go-toolery/loggerx/file_time"
+	udp_logger "github.com/yzletter/go-toolery/loggerx/udp_logger/producer"
 )
 
 const (
@@ -18,18 +19,21 @@ const (
 )
 
 type Log struct {
-	logger    *log.Logger // 基本库日志
-	logFile   string      // 日志输出文件名
-	logOut    *os.File    // 日志输出文件句柄
-	logLevel  int         // 日志等级
-	writeLock sync.Mutex  // 锁
+	logger        *log.Logger // 基本库日志
+	logFile       string      // 日志输出文件名
+	logOut        *os.File    // 日志输出文件句柄
+	logLevel      int         // 日志等级
+	writeLock     sync.Mutex  // 锁
+	addStackTrace bool        // 是否需要打印堆栈, 默认为 false
+	udpProducer   *udp_logger.LogProducer
 }
 
 func NewLog(logFile string, logLevel int) *Log {
 	var l *Log
 	l = &Log{
-		logFile:  logFile,
-		logLevel: logLevel,
+		logFile:       logFile,
+		logLevel:      logLevel,
+		addStackTrace: false,
 	}
 
 	l.rotate()                     // 开启定时前, 先执行一次滚动
@@ -37,120 +41,27 @@ func NewLog(logFile string, logLevel int) *Log {
 	return l
 }
 
-func (l *Log) print(level int, content string) {
-	var prefix string
-	switch level {
-	case DebugLevel:
-		if len(l.logFile) == 0 {
-			prefix = Magenta.Print("[DEBUG]") + " "
-		} else {
-			prefix = "[DEBUG]"
-		}
-	case InfoLevel:
-		if len(l.logFile) == 0 {
-			prefix = Blue.Print("[INFO]") + " "
-		} else {
-			prefix = "[INFO]"
-		}
-	case WarnLevel:
-		if len(l.logFile) == 0 {
-			prefix = Yellow.Print("[WARN]") + " "
-		} else {
-			prefix = "[WARN]"
-		}
-	case ErrorLevel:
-		if len(l.logFile) == 0 {
-			prefix = Red.Print("[ERROR]") + " "
-		} else {
-			prefix = "[ERROR]"
-		}
-	}
-
-	msg := prefix + " " + currentStack() + " " + content
-	l.logger.Println(msg)
+// AddStackTrace 日志会打印三层调用堆栈
+func (l *Log) AddStackTrace() {
+	l.addStackTrace = true
 }
 
-func (l *Log) Debug(content string) {
-	if l.logLevel <= DebugLevel {
-		l.writeLock.Lock()
-		defer l.writeLock.Unlock()
-
-		l.print(DebugLevel, content)
-	}
-
-}
-
-func (l *Log) Debugf(format string, v ...any) {
-	if l.logLevel <= DebugLevel {
-		l.writeLock.Lock()
-		defer l.writeLock.Unlock()
-
-		content := fmt.Sprintf(format, v...)
-		l.print(DebugLevel, content)
+// SetUDPProducer 设置 UDP Producer
+func (l *Log) SetUDPProducer(collectorAddr string) {
+	var err error
+	l.udpProducer, err = udp_logger.NewLogProducer(collectorAddr, 4096)
+	if err != nil {
+		l.Errorf("SetUDPProducer failed %s", err)
 	}
 }
 
-func (l *Log) Warn(content string) {
-	if l.logLevel <= WarnLevel {
-		l.writeLock.Lock()
-		defer l.writeLock.Unlock()
-
-		l.print(WarnLevel, content)
+func (l *Log) Close() {
+	if l.logOut != nil {
+		l.logOut.Close()
 	}
-}
 
-func (l *Log) Warnf(format string, v ...any) {
-	if l.logLevel <= WarnLevel {
-		l.writeLock.Lock()
-		defer l.writeLock.Unlock()
-
-		content := fmt.Sprintf(format, v...)
-		l.print(WarnLevel, content)
-	}
-}
-
-func (l *Log) Info(content string) {
-	if l.logLevel <= InfoLevel {
-		l.writeLock.Lock()
-		defer l.writeLock.Unlock()
-
-		l.print(InfoLevel, content)
-	}
-}
-
-func (l *Log) Infof(format string, v ...any) {
-	if l.logLevel <= InfoLevel {
-		l.writeLock.Lock()
-
-		defer l.writeLock.Unlock()
-		content := fmt.Sprintf(format, v...)
-		l.print(InfoLevel, content)
-	}
-}
-
-func (l *Log) Error(content string) {
-	if l.logLevel <= ErrorLevel {
-		l.writeLock.Lock()
-		defer l.writeLock.Unlock()
-
-		l.print(ErrorLevel, content)
-
-		for _, stk := range stackPath() {
-			_, _ = l.logOut.WriteString("\t" + stk + "\n")
-		}
-	}
-}
-
-func (l *Log) Errorf(format string, v ...any) {
-	if l.logLevel <= ErrorLevel {
-		l.writeLock.Lock()
-		defer l.writeLock.Unlock()
-
-		content := fmt.Sprintf(format, v...)
-		l.print(ErrorLevel, content)
-		for _, stk := range stackPath() {
-			_, _ = l.logOut.WriteString("\t" + stk + "\n")
-		}
+	if l.udpProducer != nil {
+		l.udpProducer.Close()
 	}
 }
 
@@ -207,4 +118,143 @@ func (l *Log) rotate() {
 
 	l.logger = log.New(l.logOut, "", log.Ldate|log.Lmicroseconds)
 	return
+}
+
+func (l *Log) print(level int, content string) {
+	var prefix string
+	switch level {
+	case DebugLevel:
+		if len(l.logFile) == 0 {
+			prefix = Magenta.Print("[DEBUG]") + " "
+		} else {
+			prefix = "[DEBUG]"
+		}
+	case InfoLevel:
+		if len(l.logFile) == 0 {
+			prefix = Blue.Print("[INFO]") + " "
+		} else {
+			prefix = "[INFO]"
+		}
+	case WarnLevel:
+		if len(l.logFile) == 0 {
+			prefix = Yellow.Print("[WARN]") + " "
+		} else {
+			prefix = "[WARN]"
+		}
+	case ErrorLevel:
+		if len(l.logFile) == 0 {
+			prefix = Red.Print("[ERROR]") + " "
+		} else {
+			prefix = "[ERROR]"
+		}
+	}
+
+	msg := prefix + " " + currentStack() + " " + content
+	l.logger.Println(msg)
+
+	if l.udpProducer != nil {
+		l.udpProducer.Send(msg)
+	}
+}
+
+func (l *Log) Debug(content string) {
+	if l.logLevel <= DebugLevel {
+		if l.addStackTrace {
+			l.writeLock.Lock()
+			defer l.writeLock.Unlock()
+		}
+		l.print(DebugLevel, content)
+	}
+
+}
+
+func (l *Log) Debugf(format string, v ...any) {
+	if l.logLevel <= DebugLevel {
+		if l.addStackTrace {
+			l.writeLock.Lock()
+			defer l.writeLock.Unlock()
+		}
+
+		content := fmt.Sprintf(format, v...)
+		l.print(DebugLevel, content)
+	}
+}
+
+func (l *Log) Warn(content string) {
+	if l.logLevel <= WarnLevel {
+		if l.addStackTrace {
+			l.writeLock.Lock()
+			defer l.writeLock.Unlock()
+		}
+		l.print(WarnLevel, content)
+	}
+}
+
+func (l *Log) Warnf(format string, v ...any) {
+	if l.logLevel <= WarnLevel {
+		if l.addStackTrace {
+			l.writeLock.Lock()
+			defer l.writeLock.Unlock()
+		}
+
+		content := fmt.Sprintf(format, v...)
+		l.print(WarnLevel, content)
+	}
+}
+
+func (l *Log) Info(content string) {
+	if l.logLevel <= InfoLevel {
+		if l.addStackTrace {
+			l.writeLock.Lock()
+			defer l.writeLock.Unlock()
+		}
+
+		l.print(InfoLevel, content)
+	}
+}
+
+func (l *Log) Infof(format string, v ...any) {
+	if l.logLevel <= InfoLevel {
+		if l.addStackTrace {
+			l.writeLock.Lock()
+			defer l.writeLock.Unlock()
+		}
+		content := fmt.Sprintf(format, v...)
+		l.print(InfoLevel, content)
+	}
+}
+
+func (l *Log) Error(content string) {
+	if l.logLevel <= ErrorLevel {
+		if l.addStackTrace {
+			l.writeLock.Lock()
+			defer l.writeLock.Unlock()
+		}
+
+		l.print(ErrorLevel, content)
+
+		if l.addStackTrace {
+			for _, stk := range stackPath() {
+				_, _ = l.logOut.WriteString("\t" + stk + "\n")
+			}
+		}
+	}
+}
+
+func (l *Log) Errorf(format string, v ...any) {
+	if l.logLevel <= ErrorLevel {
+		if l.addStackTrace {
+			l.writeLock.Lock()
+			defer l.writeLock.Unlock()
+		}
+
+		content := fmt.Sprintf(format, v...)
+		l.print(ErrorLevel, content)
+
+		if l.addStackTrace {
+			for _, stk := range stackPath() {
+				_, _ = l.logOut.WriteString("\t" + stk + "\n")
+			}
+		}
+	}
 }

@@ -1,4 +1,4 @@
-package main
+package udp_logger
 
 import (
 	"fmt"
