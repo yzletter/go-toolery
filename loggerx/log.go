@@ -18,28 +18,31 @@ const (
 )
 
 type Log struct {
-	logger     *log.Logger // 基本库日志
-	logFile    string      // 日志输出文件名
-	logOut     *os.File    // 日志输出文件句柄
-	logLevel   int         // 日志等级
-	writeLock  sync.Mutex  // 锁
-	day        int         // 创建时间
-	rotateLock sync.Mutex
+	logger    *log.Logger // 基本库日志
+	logFile   string      // 日志输出文件名
+	logOut    *os.File    // 日志输出文件句柄
+	logLevel  int         // 日志等级
+	writeLock sync.Mutex  // 锁
 }
 
 func NewLog(logFile string, logLevel int) *Log {
-	if logOut, err := os.OpenFile(logFile, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0o666); err == nil {
-		return &Log{
-			logger:   log.New(logOut, "", log.Ldate|log.Lmicroseconds),
-			logFile:  logFile,
-			logOut:   logOut,
-			logLevel: logLevel,
-			day:      time.Now().YearDay(),
-		}
-	} else {
+	var l *Log
+	logOut, err := os.OpenFile(logFile, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0o666)
+	if err == nil {
 		_, _ = os.Stderr.WriteString("open file failed")
+
 		return nil
 	}
+	l = &Log{
+		logger:   log.New(logOut, "", log.Ldate|log.Lmicroseconds),
+		logFile:  logFile,
+		logOut:   logOut,
+		logLevel: logLevel,
+	}
+
+	l.rotate()                     // 开启定时前, 先执行一次滚动
+	go Schedule(l.rotate, 0, 0, 0) // 开启定时任务
+	return l
 }
 
 func (l *Log) print(level int, content string) {
@@ -144,44 +147,35 @@ func (l *Log) Errorf(format string, v ...any) {
 	}
 }
 
-// 判断是否进行滚动
+// 滚动
 func (l *Log) rotate() {
-	// 判断是否过了一天
 	now := time.Now()
-	if now.YearDay() == l.day {
-		return
-	}
 
-	l.rotateLock.Lock()
-	defer l.rotateLock.Unlock()
+	if len(l.logFile) > 0 {
+		// 获取旧文件创建时间
+		createTime, _ := fileutil.FileCreationTime(l.logFile)
 
-	// 再判断一次, 解决并发问题
-	if now.YearDay() == l.day {
-		return
-	}
+		if createTime.Year() != now.Year() || createTime.YearDay() != now.YearDay() {
+			postFix := createTime.Format("20060102")
 
-	// 进行滚动
+			if err := os.Rename(l.logFile, l.logFile+"."+postFix); err != nil {
+				// 如果logger本身出错，则把错误信息打到标准错误输出里
+				_, _ = os.Stderr.WriteString(fmt.Sprintf("append date postfix %s to l logOut %s failed: %v\n", postFix, l.logFile, err))
+				return
+			}
 
-	// 关闭旧文件
-	_ = l.logOut.Close()
-
-	// 给老文件加上日期后缀
-	createTime, _ := fileutil.FileCreationTime(l.logFile)
-	postFix := createTime.Format("20060102")
-
-	if err := os.Rename(l.logFile, l.logFile+"."+postFix); err != nil {
-		// 如果logger本身出错，则把错误信息打到标准错误输出里
-		_, _ = os.Stderr.WriteString(fmt.Sprintf("append date postfix %s to l logOut %s failed: %v\n", postFix, l.logFile, err))
-		return
-	}
-
-	// 再打开一个新的文件句柄, 进行替换
-	if logOut, err := os.OpenFile(l.logFile, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0o666); err != nil {
-		_, _ = os.Stderr.WriteString(fmt.Sprintf("create l logOut %s failed %v\n", l.logFile, err))
-		return
+			// 再打开一个新的文件句柄, 进行替换
+			logOut, err := os.OpenFile(l.logFile, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0o666)
+			if err != nil {
+				_, _ = os.Stderr.WriteString(fmt.Sprintf("create l logOut %s failed %v\n", l.logFile, err))
+				return
+			}
+			
+			l.logOut = logOut
+		}
 	} else {
-		l.logger = log.New(logOut, "", log.Ldate|log.Lmicroseconds)
-		l.logOut = logOut
-		l.day = now.YearDay() // 更新 day 值为今天
+		l.logOut = os.Stdout // 没有指定日志文件时，默认输出到终端
 	}
+
+	l.logger = log.New(l.logOut, "", log.Ldate|log.Lmicroseconds)
 }

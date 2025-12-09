@@ -1,0 +1,8 @@
+2025/12/09 17:18:28.925546 [DEBUG]  go-toolery/loggerx/log.go:68 1
+2025/12/09 17:18:28.925594 [INFO]  go-toolery/loggerx/log.go:107 1
+2025/12/09 17:18:28.925606 [ERROR]  go-toolery/loggerx/log.go:126 1
+	
+	
+	
+	loggerx/test/main.go:12
+	loggerx/test/main.go:8
