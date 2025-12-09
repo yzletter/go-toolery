@@ -1,7 +1,7 @@
 //go:build windows
 // +build windows
 
-package fileutil
+package file_time
 
 import (
 	"os"

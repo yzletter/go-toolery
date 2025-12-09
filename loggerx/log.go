@@ -7,13 +7,13 @@ import (
 	"sync"
 	"time"
 
-	"github.com/yzletter/go-toolery/loggerx/fileutil"
+	"github.com/yzletter/go-toolery/loggerx/file_time"
 )
 
 const (
 	DebugLevel = iota
-	InfoLevel
 	WarnLevel
+	InfoLevel
 	ErrorLevel
 )
 
@@ -27,16 +27,8 @@ type Log struct {
 
 func NewLog(logFile string, logLevel int) *Log {
 	var l *Log
-	logOut, err := os.OpenFile(logFile, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0o666)
-	if err == nil {
-		_, _ = os.Stderr.WriteString("open file failed")
-
-		return nil
-	}
 	l = &Log{
-		logger:   log.New(logOut, "", log.Ldate|log.Lmicroseconds),
 		logFile:  logFile,
-		logOut:   logOut,
 		logLevel: logLevel,
 	}
 
@@ -46,17 +38,36 @@ func NewLog(logFile string, logLevel int) *Log {
 }
 
 func (l *Log) print(level int, content string) {
+
+	fmt.Printf("l.logFile %s\n", l.logFile)
+
 	var prefix string
 
 	switch level {
 	case DebugLevel:
-		prefix = "[DEBUG] "
-	case WarnLevel:
-		prefix = "[WARN] "
+		if len(l.logFile) == 0 {
+			prefix = Magenta.Print("[DEBUG]") + " "
+		} else {
+			prefix = "[DEBUG]"
+		}
 	case InfoLevel:
-		prefix = "[INFO] "
+		if len(l.logFile) == 0 {
+			prefix = Blue.Print("[INFO]") + " "
+		} else {
+			prefix = "[INFO]"
+		}
+	case WarnLevel:
+		if len(l.logFile) == 0 {
+			prefix = Yellow.Print("[WARN]") + " "
+		} else {
+			prefix = "[WARN]"
+		}
 	case ErrorLevel:
-		prefix = "[ERROR] "
+		if len(l.logFile) == 0 {
+			prefix = Red.Print("[ERROR]") + " "
+		} else {
+			prefix = "[ERROR]"
+		}
 	}
 
 	msg := prefix + " " + currentStack() + " " + content
@@ -149,12 +160,35 @@ func (l *Log) Errorf(format string, v ...any) {
 
 // 滚动
 func (l *Log) rotate() {
+	// 如果是初始化
+	if l.logOut == nil {
+
+		// 使用终端输出
+		if l.logFile == "" {
+			l.logOut = os.Stdout
+			l.logger = log.New(l.logOut, "", log.Ldate|log.Lmicroseconds)
+			return
+		}
+
+		// 使用指定文件
+		logOut, err := os.OpenFile(l.logFile, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0o666)
+		if err != nil {
+			_, _ = os.Stderr.WriteString(fmt.Sprintf("create l logOut %s failed %v\n", l.logFile, err))
+			return
+		}
+		l.logOut = logOut
+		l.logger = log.New(l.logOut, "", log.Ldate|log.Lmicroseconds)
+		return
+	}
+
+	// 当前时间
 	now := time.Now()
 
-	if len(l.logFile) > 0 {
+	if l.logFile == "" {
+		l.logOut = os.Stdout
+	} else {
 		// 获取旧文件创建时间
-		createTime, _ := fileutil.FileCreationTime(l.logFile)
-
+		createTime, _ := file_time.FileCreationTime(l.logFile)
 		if createTime.Year() != now.Year() || createTime.YearDay() != now.YearDay() {
 			postFix := createTime.Format("20060102")
 
@@ -164,18 +198,17 @@ func (l *Log) rotate() {
 				return
 			}
 
-			// 再打开一个新的文件句柄, 进行替换
+			// 打开一个新的文件句柄, 进行替换
 			logOut, err := os.OpenFile(l.logFile, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0o666)
 			if err != nil {
 				_, _ = os.Stderr.WriteString(fmt.Sprintf("create l logOut %s failed %v\n", l.logFile, err))
 				return
 			}
-			
+
 			l.logOut = logOut
 		}
-	} else {
-		l.logOut = os.Stdout // 没有指定日志文件时，默认输出到终端
 	}
 
 	l.logger = log.New(l.logOut, "", log.Ldate|log.Lmicroseconds)
+	return
 }

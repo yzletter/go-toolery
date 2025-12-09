@@ -6,10 +6,12 @@ var (
 	loc, _ = time.LoadLocation("Asia/Shanghai") // 设置时区
 )
 
+const period = 86400 // 一天的秒数
+
 func Schedule(work func(), hour, minute, second int) {
-	const period = 86400
 	ticker := time.NewTicker(1) //time.After，time.Ticker，time.Timer，time.Sleep都可以互相替换
 	<-ticker.C
+
 	defer ticker.Stop()
 
 	now := time.Now()                                                                     // 当前时间

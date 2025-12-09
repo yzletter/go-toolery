@@ -13,7 +13,8 @@ func a() {
 }
 
 func b() {
-	log := loggerx.NewLog("./loggerx/my.log", loggerx.DebugLevel)
+	//log := loggerx.NewLog("./loggerx/my.log", loggerx.DebugLevel)
+	log := loggerx.NewLog("", loggerx.DebugLevel)
 	log.Debug("1")
 	log.Info("1")
 	log.Error("1")

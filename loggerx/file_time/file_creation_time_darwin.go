@@ -1,7 +1,7 @@
 //go:build darwin
 // +build darwin
 
-package fileutil
+package file_time
 
 import (
 	"os"

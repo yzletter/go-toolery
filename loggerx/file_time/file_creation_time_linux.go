@@ -1,7 +1,7 @@
 //go:build linux
 // +build linux
 
-package fileutil
+package file_time
 
 import (
 	"time"

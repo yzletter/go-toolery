@@ -1,6 +1,46 @@
-2025/12/09 17:18:28.925546 [DEBUG]  go-toolery/loggerx/log.go:68 1
-2025/12/09 17:18:28.925594 [INFO]  go-toolery/loggerx/log.go:107 1
-2025/12/09 17:18:28.925606 [ERROR]  go-toolery/loggerx/log.go:126 1
+2025/12/09 21:16:38.848148 [DEBUG] go-toolery/loggerx/log.go:79 1
+2025/12/09 21:16:38.848337 [INFO] go-toolery/loggerx/log.go:118 1
+2025/12/09 21:16:38.848353 [ERROR] go-toolery/loggerx/log.go:137 1
+	
+	
+	
+	loggerx/test/main.go:12
+	loggerx/test/main.go:8
+2025/12/09 21:18:39.185287 [DEBUG] go-toolery/loggerx/log.go:79 1
+2025/12/09 21:18:39.185706 [INFO] go-toolery/loggerx/log.go:118 1
+2025/12/09 21:18:39.185715 [ERROR] go-toolery/loggerx/log.go:137 1
+	
+	
+	
+	loggerx/test/main.go:12
+	loggerx/test/main.go:8
+2025/12/09 21:19:22.002868 [DEBUG] go-toolery/loggerx/log.go:79 1
+2025/12/09 21:19:22.003048 [INFO] go-toolery/loggerx/log.go:118 1
+2025/12/09 21:19:22.003065  go-toolery/loggerx/log.go:137 1
+	
+	
+	
+	loggerx/test/main.go:12
+	loggerx/test/main.go:8
+2025/12/09 21:20:15.806475 [DEBUG] go-toolery/loggerx/log.go:82 1
+2025/12/09 21:20:15.806616 [INFO] go-toolery/loggerx/log.go:121 1
+2025/12/09 21:20:15.806633 [ERROR] go-toolery/loggerx/log.go:140 1
+	
+	
+	
+	loggerx/test/main.go:12
+	loggerx/test/main.go:8
+2025/12/09 21:20:26.040345 [DEBUG] go-toolery/loggerx/log.go:82 1
+2025/12/09 21:20:26.040514 [INFO] go-toolery/loggerx/log.go:121 1
+2025/12/09 21:20:26.040530 [ERROR] go-toolery/loggerx/log.go:140 1
+	
+	
+	
+	loggerx/test/main.go:12
+	loggerx/test/main.go:8
+2025/12/09 21:20:39.586790 [1;35m[DEBUG][0m  go-toolery/loggerx/log.go:82 1
+2025/12/09 21:20:39.586930 [INFO] go-toolery/loggerx/log.go:121 1
+2025/12/09 21:20:39.586947 [ERROR] go-toolery/loggerx/log.go:140 1
 	
 	
 	

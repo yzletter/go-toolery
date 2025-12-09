@@ -1,5 +1,5 @@
 // file_creation_time.go
-package fileutil
+package file_time
 
 import "time"
 
