@@ -25,8 +25,8 @@ func shortFile(file string) string {
 }
 
 func stackPath() []string {
-	rect := make([]string, 3)
-	for i := 3; i < 5; i++ {
+	rect := make([]string, 0, 5)
+	for i := 2; i < 7; i++ {
 		_, file, line, ok := runtime.Caller(i)
 		if ok {
 			rect = append(rect, fmt.Sprintf("%s:%d", shortFile(file), line))

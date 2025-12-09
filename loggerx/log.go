@@ -38,11 +38,7 @@ func NewLog(logFile string, logLevel int) *Log {
 }
 
 func (l *Log) print(level int, content string) {
-
-	fmt.Printf("l.logFile %s\n", l.logFile)
-
 	var prefix string
-
 	switch level {
 	case DebugLevel:
 		if len(l.logFile) == 0 {

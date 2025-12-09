@@ -1,48 +1,29 @@
-2025/12/09 21:16:38.848148 [DEBUG] go-toolery/loggerx/log.go:79 1
-2025/12/09 21:16:38.848337 [INFO] go-toolery/loggerx/log.go:118 1
-2025/12/09 21:16:38.848353 [ERROR] go-toolery/loggerx/log.go:137 1
-	
-	
-	
+2025/12/09 22:23:22.716793 [DEBUG] go-toolery/loggerx/log.go:82 1
+2025/12/09 22:23:22.716925 [INFO] go-toolery/loggerx/log.go:121 1
+2025/12/09 22:23:22.716933 [ERROR] go-toolery/loggerx/log.go:140 1
+	loggerx/test/main.go:20
 	loggerx/test/main.go:12
 	loggerx/test/main.go:8
-2025/12/09 21:18:39.185287 [DEBUG] go-toolery/loggerx/log.go:79 1
-2025/12/09 21:18:39.185706 [INFO] go-toolery/loggerx/log.go:118 1
-2025/12/09 21:18:39.185715 [ERROR] go-toolery/loggerx/log.go:137 1
+	src/runtime/proc.go:285
+	src/runtime/asm_arm64.s:1268
+2025/12/09 22:24:24.167787 [DEBUG] go-toolery/loggerx/log.go:82 1
+2025/12/09 22:24:24.167944 [INFO] go-toolery/loggerx/log.go:121 1
+2025/12/09 22:24:24.167961 [ERROR] go-toolery/loggerx/log.go:140 1
 	
 	
 	
+	
+	
+	loggerx/test/main.go:20
 	loggerx/test/main.go:12
 	loggerx/test/main.go:8
-2025/12/09 21:19:22.002868 [DEBUG] go-toolery/loggerx/log.go:79 1
-2025/12/09 21:19:22.003048 [INFO] go-toolery/loggerx/log.go:118 1
-2025/12/09 21:19:22.003065  go-toolery/loggerx/log.go:137 1
-	
-	
-	
+	src/runtime/proc.go:285
+	src/runtime/asm_arm64.s:1268
+2025/12/09 22:24:35.650355 [DEBUG] go-toolery/loggerx/log.go:82 1
+2025/12/09 22:24:35.650420 [INFO] go-toolery/loggerx/log.go:121 1
+2025/12/09 22:24:35.650427 [ERROR] go-toolery/loggerx/log.go:140 1
+	loggerx/test/main.go:20
 	loggerx/test/main.go:12
 	loggerx/test/main.go:8
-2025/12/09 21:20:15.806475 [DEBUG] go-toolery/loggerx/log.go:82 1
-2025/12/09 21:20:15.806616 [INFO] go-toolery/loggerx/log.go:121 1
-2025/12/09 21:20:15.806633 [ERROR] go-toolery/loggerx/log.go:140 1
-	
-	
-	
-	loggerx/test/main.go:12
-	loggerx/test/main.go:8
-2025/12/09 21:20:26.040345 [DEBUG] go-toolery/loggerx/log.go:82 1
-2025/12/09 21:20:26.040514 [INFO] go-toolery/loggerx/log.go:121 1
-2025/12/09 21:20:26.040530 [ERROR] go-toolery/loggerx/log.go:140 1
-	
-	
-	
-	loggerx/test/main.go:12
-	loggerx/test/main.go:8
-2025/12/09 21:20:39.586790 [1;35m[DEBUG][0m  go-toolery/loggerx/log.go:82 1
-2025/12/09 21:20:39.586930 [INFO] go-toolery/loggerx/log.go:121 1
-2025/12/09 21:20:39.586947 [ERROR] go-toolery/loggerx/log.go:140 1
-	
-	
-	
-	loggerx/test/main.go:12
-	loggerx/test/main.go:8
+	src/runtime/proc.go:285
+	src/runtime/asm_arm64.s:1268
