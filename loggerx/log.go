@@ -167,7 +167,7 @@ func (l *Log) rotate() {
 		}
 
 		// 使用指定文件
-		logOut, err := os.OpenFile(l.logFile, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0o666)
+		logOut, err := os.OpenFile(l.logFile, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0o664)
 		if err != nil {
 			_, _ = os.Stderr.WriteString(fmt.Sprintf("create l logOut %s failed %v\n", l.logFile, err))
 			return
@@ -195,7 +195,7 @@ func (l *Log) rotate() {
 			}
 
 			// 打开一个新的文件句柄, 进行替换
-			logOut, err := os.OpenFile(l.logFile, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0o666)
+			logOut, err := os.OpenFile(l.logFile, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0o664)
 			if err != nil {
 				_, _ = os.Stderr.WriteString(fmt.Sprintf("create l logOut %s failed %v\n", l.logFile, err))
 				return
