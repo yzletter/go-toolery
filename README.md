@@ -410,4 +410,10 @@ func Jaccard[T comparable](collection1, collection2 []T) (float64, error) {}
 func JaccardForSorted[T cmp.Ordered](collection1, collection2 []T) (float64, error) {}
 ```
 
-### LRU 
+### 手写 Slugify 函数
+
+```go
+// Slugify 将字符串转为唯一标识 + 六位 Hash 结果(防止冲突） eg: GoLang学习 -> golang-xue-xi-1fcbf8
+func Slugify(name string) string {}
+
+```
