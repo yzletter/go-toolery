@@ -4,7 +4,9 @@ go 1.25.3
 
 require (
 	github.com/bytedance/sonic v1.14.2
+	github.com/google/uuid v1.6.0
 	github.com/mozillazg/go-pinyin v0.21.0
+	github.com/rs/xid v1.6.0
 	github.com/stretchr/testify v1.10.0
 	go.uber.org/zap v1.27.1
 )
