@@ -5,7 +5,7 @@ import (
 	"math/rand"
 	"testing"
 
-	"github.com/yzletter/go-toolery/priority_queuex"
+	"github.com/yzletter/go-toolery/datastructurex/priority_queuex"
 )
 
 func TestPriorityQueue(t *testing.T) {

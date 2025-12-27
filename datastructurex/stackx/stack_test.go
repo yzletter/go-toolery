@@ -5,7 +5,7 @@ import (
 	"math/rand"
 	"testing"
 
-	"github.com/yzletter/go-toolery/stackx"
+	"github.com/yzletter/go-toolery/datastructurex/stackx"
 )
 
 func TestStack(t *testing.T) {

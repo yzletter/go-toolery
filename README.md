@@ -4,86 +4,6 @@
 
 个人练手用的现代化的 Go 工具库，聚焦于数据结构、算法实现、工程辅助函数与常用工具组件，在实际工程项目中快速解决常见问题，减少重复造轮子。
 
-## 目录结构
-
-```
-.
-├── README.md
-├── algorithmx
-│   ├── binary_search.go
-│   ├── binary_search_test.go
-│   ├── quick_sort.go
-│   └── quick_sort_test.go
-├── dequeuex
-│   ├── queue.go
-│   └── queue_test.go
-├── errx
-│   └── err.go
-├── go.mod
-├── go.sum
-├── jwtx
-│   ├── jwt.go
-│   ├── jwt_test.go
-│   └── types.go
-├── listx
-│   ├── list.go
-│   ├── list_test.go
-│   └── node.go
-├── loggerx
-│   ├── call_stack.go
-│   ├── color.go
-│   ├── file_time
-│   │   ├── file_creation_time.go
-│   │   ├── file_creation_time_darwin.go
-│   │   ├── file_creation_time_linux.go
-│   │   └── file_creation_time_windows.go
-│   ├── log
-│   │   ├── my.log
-│   │   └── zap.log
-│   ├── log.go
-│   ├── log_test.go
-│   ├── schedule.go
-│   ├── test
-│   │   ├── main.go
-│   │   ├── my.log
-│   │   └── udp_collect.log
-│   └── udp_logger
-│       ├── collector
-│       │   └── collector.go
-│       └── producer
-│           └── producer.go
-├── mathx
-│   ├── math.go
-│   └── math_test.go
-├── priority_queuex
-│   ├── priority_queue.go
-│   └── priority_queue_test.go
-├── randx
-│   ├── string.go
-│   └── string_test.go
-├── setx
-│   ├── set.go
-│   └── set_test.go
-├── slicex
-│   ├── slice.go
-│   └── slice_test.go
-├── stackx
-│   ├── stack.go
-│   └── stack_test.go
-├── standardx
-│   ├── function.go
-│   └── function_test.go
-├── treex
-│   ├── binary_tree.go
-│   ├── binary_tree_test.go
-│   └── node.go
-└── utilx
-    ├── jaccard.go
-    ├── jaccard_test.go
-    ├── pkcs7.go
-    └── pkcs7_test.go
-```
-
 ## 算法 (Algorithm)
 
 ### 手写二分查找 (BinarySearch)
@@ -321,7 +241,7 @@ func Ternary[T any](condition bool, a, j T) T {}
 func Hash(password string) string {}
 ```
 
-### Log 辅助 (Loggerx)
+## 高性能Log (Loggerx)
 
 ```go
 type Log struct {
@@ -367,7 +287,90 @@ func (l *Log) Errorf(format string, v ...any) {}
 
 ```
 
+## 手写 RPC 框架 (Rpcx)
 
+### 手写参数序列化
+
+```go
+
+// 支持的数据类型
+const (
+	TypeInt = iota
+	TypeFloat32
+	TypeFloat64
+	TypeString
+	TypeBool
+)
+
+// MAGIC 魔数
+var MAGIC = [...]byte{23, 37, 111, 51}
+
+type MySerializer struct {
+}
+
+func (m MySerializer) Marshal(object any) ([]byte, error) {}
+
+func (m MySerializer) Unmarshal(buffer []byte, object any) error {}
+
+// MarshalArguments 将一批参数序列化
+func MarshalArguments(arguments ...any) ([]byte, error) {}
+
+// UnmarshalArguments 反序列化一个数据流
+func UnmarshalArguments(bs []byte) ([]any, error) {}
+
+// IntToBytes Int 转 []Byte
+func IntToBytes(n int) []byte {}
+
+// BytesToInt []Byte 转 Int
+func BytesToInt(bs []byte) int {}
+
+// 序列化单个参数
+func marshalArgument(argument any, buffer *bytes.Buffer) (byte, int, error) {}
+
+// 反序列化单个参数
+func unmarshallArgument(argumentType byte, argumentBS []byte) (any, error) {}
+
+func setValue(kind reflect.Kind, objValue reflect.Value, argument any) error {}
+
+```
+
+### 手写 RPC 调用
+
+#### Client 端
+
+```go
+type EchoClient struct {
+	conn          net.Conn
+	s             serializer.Serializer
+	requestBuffer sync.Map
+}
+
+func NewClient(serverIP string, port int, s serializer.Serializer) *EchoClient {}
+
+func (client *EchoClient) receive() {}
+
+// Call 发起调用
+func (client *EchoClient) Call(req *rpcx.RpcxData) *rpcx.RpcxData {}
+
+```
+
+#### Server 端
+
+```go
+type EchoServer struct {
+	conn *net.UDPConn          // 面向报文
+	s    serializer.Serializer // 序列化接口
+}
+
+// NewServer 构造函数
+func NewServer(port int, s serializer.Serializer) *EchoServer {}
+
+func (server EchoServer) Serve() {}
+
+// 业务处理
+func (server EchoServer) handle(request []byte, remoteAddr *net.UDPAddr) {}
+
+```
 
 ## 工程辅助
 

@@ -1,7 +1,7 @@
 package treex
 
 import (
-	"github.com/yzletter/go-toolery/dequeuex"
+	"github.com/yzletter/go-toolery/datastructurex/dequeuex"
 )
 
 // BinaryTree 二叉树

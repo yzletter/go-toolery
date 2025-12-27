@@ -1,7 +1,7 @@
 package slicex
 
 import (
-	"github.com/yzletter/go-toolery/setx"
+	"github.com/yzletter/go-toolery/datastructurex/setx"
 )
 
 // Unique 借助 set 去重, 返回无序的去重切片

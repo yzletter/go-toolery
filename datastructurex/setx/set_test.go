@@ -5,7 +5,7 @@ import (
 	"math/rand"
 	"testing"
 
-	"github.com/yzletter/go-toolery/setx"
+	"github.com/yzletter/go-toolery/datastructurex/setx"
 )
 
 func TestSet(t *testing.T) {
