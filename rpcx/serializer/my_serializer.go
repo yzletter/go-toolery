@@ -23,6 +23,70 @@ var MAGIC = [...]byte{23, 37, 111, 51}
 type MySerializer struct {
 }
 
+func (m MySerializer) Marshal(object any) ([]byte, error) {
+	// 获取类型和值
+	objType := reflect.TypeOf(object)
+	objValue := reflect.ValueOf(object)
+
+	// 遍历成员变量
+	arguments := make([]any, 0, 10)
+	for i := 0; i < objValue.NumField(); i++ {
+		if !objType.Field(i).IsExported() {
+			// 当前字段不可导出
+			continue
+		}
+		// Filed 获取成员变量值转为 any 后放入 arguments
+		arguments = append(arguments, objValue.Field(i).Interface())
+	}
+
+	return MarshalArguments(arguments...) // 将切片转为不定长参数
+}
+
+func (m MySerializer) Unmarshal(buffer []byte, object any) error {
+	// 获取类型和值
+	objType := reflect.TypeOf(object)
+	objValue := reflect.ValueOf(object)
+
+	// 判断 object 是否为指针
+	if objType.Kind() != reflect.Ptr {
+		return errors.New("需要传入指针")
+	}
+
+	// 解析指针
+	objType = objType.Elem()
+	objValue = objValue.Elem()
+
+	// 判断是否为结构体指针
+	if objType.Kind() != reflect.Struct {
+		return errors.New("需要传入结构体指针")
+	}
+
+	// 反序列化
+	arguments, err := UnmarshalArguments(buffer)
+	if err != nil {
+		return err
+	}
+
+	for i, j := 0, 0; i < objValue.NumField(); i++ {
+		if !objType.Field(i).IsExported() {
+			// 当前字段不可导出
+			continue
+		}
+
+		// 当前参数
+		argument := arguments[j]
+		j++
+
+		// 为当前成员变量赋值
+		err := setValue(objType.Field(i).Type.Kind(), objValue.Field(i), argument)
+		if err != nil {
+			return errors.New(fmt.Sprintf("第 %d 个成员变量反序列化失败, error:%s", i, err.Error()))
+		}
+	}
+
+	return nil
+}
+
 // MarshalArguments 将一批参数序列化
 func MarshalArguments(arguments ...any) ([]byte, error) {
 	types := make([]byte, 0, len(arguments))  // 每个参数的类型, 一个 byte 可以放下
@@ -238,4 +302,42 @@ func unmarshallArgument(argumentType byte, argumentBS []byte) (any, error) {
 	default:
 		return nil, errors.New(fmt.Sprintf("参数序列化失败，不支持该类型"))
 	}
+}
+
+func setValue(kind reflect.Kind, objValue reflect.Value, argument any) error {
+	switch kind {
+	case reflect.Int:
+		if v, ok := argument.(int); ok {
+			objValue.SetInt(int64(v))
+		} else {
+			return errors.New("参数类型与结构体不一致, 结构体期望 int 类型")
+		}
+	case reflect.Float32:
+		if v, ok := argument.(float32); ok {
+			objValue.SetFloat(float64(v))
+		} else {
+			return errors.New("参数类型与结构体不一致, 结构体期望 float32 类型")
+		}
+	case reflect.Float64:
+		if v, ok := argument.(float64); ok {
+			objValue.SetFloat(v)
+		} else {
+			return errors.New("参数类型与结构体不一致, 结构体期望 float64 类型")
+		}
+	case reflect.Bool:
+		if v, ok := argument.(bool); ok {
+			objValue.SetBool(v)
+		} else {
+			return errors.New("参数类型与结构体不一致, 结构体期望 bool 类型")
+		}
+	case reflect.String:
+		if v, ok := argument.(string); ok {
+			objValue.SetString(v)
+		} else {
+			return errors.New("参数类型与结构体不一致, 结构体期望 string 类型")
+		}
+	default:
+		return errors.New("不支持的反序列化类型")
+	}
+	return nil
 }

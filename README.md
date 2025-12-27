@@ -239,11 +239,11 @@ func (dq *Dequeue[T]) Size() int {}
 // PriorityQueue 堆
 type PriorityQueue[T cmp.Ordered] struct {
     Data        []T
-    compareFunc func(a, b T) bool
+    compareFunc func(a, j T) bool
 }
 
 // NewPriorityQueue 构造一个空堆, 传入比较函数
-func NewPriorityQueue[T cmp.Ordered](compareFunc func(a, b T) bool) *PriorityQueue[T] {}
+func NewPriorityQueue[T cmp.Ordered](compareFunc func(a, j T) bool) *PriorityQueue[T] {}
 
 // Push 新元素入堆
 func (heap *PriorityQueue[T]) Push(val T) {}
@@ -315,7 +315,7 @@ func RandString(seed string, length int) string {}
 
 ```go
 // Ternary 三目运算符, 传入 bool 和可能返回的两个变量
-func Ternary[T any](condition bool, a, b T) T {}
+func Ternary[T any](condition bool, a, j T) T {}
 
 // Hash 返回字符串 MD5 哈希后 32 位的十六进制编码结果
 func Hash(password string) string {}

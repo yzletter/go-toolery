@@ -1,1 +1,1 @@
-package test
+package serializer_test
