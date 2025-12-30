@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/yzletter/go-toolery/slicex"
+	"github.com/yzletter/go-toolery/standardx/slicex"
 )
 
 func TestSlice(t *testing.T) {

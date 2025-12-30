@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/yzletter/go-toolery/mathx"
+	"github.com/yzletter/go-toolery/standardx/mathx"
 )
 
 func TestQMI(t *testing.T) {

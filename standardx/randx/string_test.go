@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/yzletter/go-toolery/randx"
+	"github.com/yzletter/go-toolery/standardx/randx"
 )
 
 func TestString(t *testing.T) {
