@@ -16,6 +16,7 @@ var (
 	ErrPKCS7InvalidParam          = errors.New("go-toolery utilx : PKCS7 UnPadding 传入非法参数")
 	ErrLinkedListInvalidParam     = errors.New("go-toolery utilx : LinkedList 传入非法参数")
 	ErrMinConcurrencyInvalidParam = errors.New("go-toolery utilx : MinConcurrency 传入非法参数")
+	ErrAliasInvalidParam          = errors.New("go-toolery utilx : Alias 传入非法参数")
 )
 
 var (
