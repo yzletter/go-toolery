@@ -12,9 +12,10 @@ var (
 
 // 其他错误处理
 var (
-	ErrNilSlice               = errors.New("go-toolery utilx : Jaccard 传入切片为空")
-	ErrPKCS7InvalidParam      = errors.New("go-toolery utilx : PKCS7 UnPadding 传入非法参数")
-	ErrLinkedListInvalidParam = errors.New("go-toolery utilx : LinkedList 传入非法参数")
+	ErrNilSlice                   = errors.New("go-toolery utilx : Jaccard 传入切片为空")
+	ErrPKCS7InvalidParam          = errors.New("go-toolery utilx : PKCS7 UnPadding 传入非法参数")
+	ErrLinkedListInvalidParam     = errors.New("go-toolery utilx : LinkedList 传入非法参数")
+	ErrMinConcurrencyInvalidParam = errors.New("go-toolery utilx : MinConcurrency 传入非法参数")
 )
 
 var (
