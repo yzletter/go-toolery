@@ -2,421 +2,83 @@
 
 ## 简介 (Introduction)
 
-个人练手用的现代化的 Go 工具库，聚焦于数据结构、算法实现、工程辅助函数与常用工具组件，在实际工程项目中快速解决常见问题，减少重复造轮子。
+自研现代化的 Go 工具库，聚焦于数据结构、算法实现、工程辅助函数与常用工具组件，旨在实际工程项目中快速解决常见问题，减少重复造轮子
 
-## 算法 (Algorithm)
+## 对比无参考意义，仅供个人学习使用
 
-### 手写二分查找 (BinarySearch)
-```go
-// 返回 arr 中第一个大于等于 target 的元素的下标, 返回 下标位置, 是否找到
-func BinarySearch[T cmp.Ordered](arr []T, target T) (idx int, ok bool) {}
-```
+代码量：2250 + 行
 
-### 手写快排 (QuickSort)
+## 手写传统算法 (Algorithmx)
 
-```go
-// 原地快速排序
-func QuickSort[T cmp.Ordered](arr []T) {}
-```
+- 手写二分查找 (BinarySearch)
 
-## 数据结构 (DataStructure)
+- 手写快排 (QuickSort)
 
-### 手写带头结点的双向循环链表 (Listx)
+## 手写数据结构 (DataStructurex)
 
-```go
-// DoubleList 带头节点的双向循环链表
-type DoubleList[T cmp.Ordered] struct {
-    Head   *ListNode[T] // 头节点
-    Length int          // 链表长度
-}
+- 手写带头结点的双向循环链表 (Listx)
+- 手写集合 (Setx)
+- 手写栈 (Stackx)
+- 手写双端队列 (DeQueuex)
+- 手写堆 (PriorityQueuex)
+- 手写二叉树 (Treex)
 
-// NewDoubleList 构造函数
-func NewDoubleList[T cmp.Ordered]() *DoubleList[T] {}
+## 手写标准库辅助 (Standardx)
 
-// NewDoubleListFromSlice 将 slice 转为链表
-func NewDoubleListFromSlice[T cmp.Ordered](src []T) *DoubleList[T] {}
+- 手写 Slice 辅助 (Slicex)
 
-// Traverse 正序遍历整个 DoubleList, 传入一个 operate 函数对节点进行操作
-func (list *DoubleList[T]) Traverse(operate func(listNode *ListNode[T])) {}
+- 手写 Math 辅助 (Mathx)
 
-// ReverseTraverse 逆序遍历整个 DoubleList, 传入一个 operate 函数对节点进行操作
-func (list *DoubleList[T]) ReverseTraverse(operate func(listNode *ListNode[T])) {}
+- 手写 Rand 辅助 (Randx)
 
-// InsertToHead 头插法
-func (list *DoubleList[T]) InsertToHead(val T) {}
+- 手写 Function 辅助
 
-// InsertToTail 尾插法
-func (list *DoubleList[T]) InsertToTail(val T) {}
+## 手写工程辅助 (Utilx)
 
-// InsertBefore 在 node 前面添加一个数据为 val 的新节点
-func (list *DoubleList[T]) InsertBefore(val T, node *ListNode[T]) {}
+- 手写最小并发度负载均衡算法
 
-// InsertAfter 在 node 后面添加一个数据为 val 的新节点
-func (list *DoubleList[T]) InsertAfter(val T, node *ListNode[T]) {}
+- 手写 Alias 采样
 
-// FindNode 寻找从 0 开始下标为 idx 的节点, 返回节点和可能的错误
-func (list *LinkedList[T]) FindNode(idx int) (node *ListNode[T], err error) {}
+- 手写 PKCS7 数据填充
 
-// Values 将链表值转为切片
-func (list *LinkedList[T]) Values() []T {}
+- 手写 Jaccard 相似度
 
-// LastNode 返回最后一个节点和可能的错误
-func (list *LinkedList[T]) LastNode() (*ListNode[T], error) {}
+- 手写 Slugify 函数
 
-// FirstNode 返回第一个节点和可能的错误
-func (list *LinkedList[T]) FirstNode() (*ListNode[T], error) {}
-```
+## 手写 JWT 认证 (Jwtx)
 
-### 手写集合 (Setx)
+## 手写高性能 Log (Loggerx)
 
-```go
-// EmptyStruct 空结构体
-type EmptyStruct struct{}
-
-// Set 集合
-type Set[T comparable] map[T]EmptyStruct
-
-// NewSet 构造函数
-func NewSet[T comparable]() Set[T] {}
-
-// Insert 插入一个新元素
-func (hash Set[T]) Insert(val T) {}
-
-// Delete 删除一个元素
-func (hash Set[T]) Delete(val T) {}
-
-// Exist 查询一个元素
-func (hash Set[T]) Exist(val T) bool {}
-
-// Size 返回集合中元素个数
-func (hash Set[T]) Size() int {}
-
-// Values 返回集合中所有元素的切片
-func (hash Set[T]) Values() []T {}
-```
-
-### 手写栈 (Stackx)
-
-```go
-// Stack 栈
-type Stack[T any] struct {
-	Data []T
-}
-
-// NewStack 构造函数
-func NewStack[T any]() *Stack[T] {}
-
-// Top 取栈顶元素, 返回栈顶元素和可能的错误
-func (stk *Stack[T]) Top() (T, error) {}
-
-// Pop 弹出栈顶, 返回可能的错误
-func (stk *Stack[T]) Pop() error {}
-
-// Push 新元素入栈
-func (stk *Stack[T]) Push(val T) {}
-
-// Size 返回栈的长度
-func (stk *Stack[T]) Size() int {}
-```
-
-### 手写双端队列 (DeQueuex)
-
-```go
-// Dequeue 双端队列
-type Dequeue[T any] struct {
-	Data   []T
-	Length int
-}
-
-// NewDequeue 构造函数
-func NewDequeue[T any]() *Dequeue[T] {}
-
-// PushBack 插到队尾
-func (dq *Dequeue[T]) PushBack(val T) {}
-
-// PushFront 插到队头
-func (dq *Dequeue[T]) PushFront(val T) {}
-
-// PopFront 弹出队头, 返回可能的错误
-func (dq *Dequeue[T]) PopFront() error {}
-
-// PopBack 弹出队尾
-func (dq *Dequeue[T]) PopBack() error {}
-
-// Front 取队头
-func (dq *Dequeue[T]) Front() (T, error) {}
-
-// Back 取队尾
-func (dq *Dequeue[T]) Back() (T, error) {}
-
-// Size 返回队列长度
-func (dq *Dequeue[T]) Size() int {}
-```
-
-### 手写堆 (PriorityQueuex)
-
-```go
-// PriorityQueue 堆
-type PriorityQueue[T cmp.Ordered] struct {
-    Data        []T
-    compareFunc func(a, j T) bool
-}
-
-// NewPriorityQueue 构造一个空堆, 传入比较函数
-func NewPriorityQueue[T cmp.Ordered](compareFunc func(a, j T) bool) *PriorityQueue[T] {}
-
-// Push 新元素入堆
-func (heap *PriorityQueue[T]) Push(val T) {}
-
-// Pop 弹出堆顶, 返回可能的错误
-func (heap *PriorityQueue[T]) Pop() error {}
-
-// Top 返回堆顶元素和可能的错误
-func (heap *PriorityQueue[T]) Top() (T, error) {}
-
-// Size 返回堆的大小
-func (heap *PriorityQueue[T]) Size() int {}
-
-// 将堆底元素向上更新
-func (heap *PriorityQueue[T]) pushUp() {}
-
-// 将堆顶元素向下更新
-func (heap *PriorityQueue[T]) pushDown() {}
-```
-
-### 手写二叉树 (Treex)
-
-```go
-// BinaryTree 二叉树
-type BinaryTree struct {
-	Root *BNode
-}
-
-// NewBinaryTree 根据 root 构造一颗二叉树
-func NewBinaryTree(root *BNode) *BinaryTree {}
-
-// PreOrder 二叉树先序遍历, 传入操作节点的函数 BNodeOperationFunc
-func (bt *BinaryTree) PreOrder(operate BNodeOperationFunc) {}
-
-// MiddleOrder 二叉树中序遍历, 传入操作节点的函数 BNodeOperationFunc
-func (bt *BinaryTree) MiddleOrder(operate BNodeOperationFunc) {}
-
-// PostOrder 二叉树后序遍历, 传入操作节点的函数 BNodeOperationFunc
-func (bt *BinaryTree) PostOrder(operate BNodeOperationFunc) {}
-
-// LevelOrder 二叉树层序遍历, 传入操作节点的函数 BNodeOperationFunc
-func (bt *BinaryTree) LevelOrder(operate BNodeOperationFunc) {}
-```
-
-## 标准库辅助
-
-### Slice 辅助 (Slicex)
-
-```go
-// Unique 借助 set 去重, 返回无序的去重切片
-func Unique[T comparable](target []T) []T {}
-```
-
-### Math 辅助 (Mathx)
-
-```go
-// QMI 快速幂求 a ^ k % p
-func QMI(a, k, p int) int {}
-```
-
-### Rand 辅助 (Randx)
-
-```go
-// RandString 根据传入的种子, 生成长度为 len 的随机字符串
-func RandString(seed string, length int) string {}
-```
-
-### Function 辅助 (Standardx)
-
-```go
-// Ternary 三目运算符, 传入 bool 和可能返回的两个变量
-func Ternary[T any](condition bool, a, j T) T {}
-
-// Hash 返回字符串 MD5 哈希后 32 位的十六进制编码结果
-func Hash(password string) string {}
-```
-
-## 高性能Log (Loggerx)
-
-```go
-type Log struct {
-	logger        *log.Logger // 基本库日志
-	logFile       string      // 日志输出文件名
-	logOut        *os.File    // 日志输出文件句柄
-	logLevel      int         // 日志等级
-	writeLock     sync.Mutex  // 锁
-	addStackTrace bool        // 是否需要打印堆栈, 默认为 false
-	udpProducer   *udp_logger.LogProducer
-}
-
-func NewLog(logFile string, logLevel int) *Log {}
-
-// AddStackTrace 日志会打印三层调用堆栈
-func (l *Log) AddStackTrace() {}
-
-// SetUDPProducer 设置 UDP Producer
-func (l *Log) SetUDPProducer(collectorAddr string) {}
-
-func (l *Log) Close() {}
-
-// 滚动
-func (l *Log) rotate() {}
-
-func (l *Log) print(level int, content string) {}
-
-func (l *Log) Debug(content string) {}
-
-func (l *Log) Debugf(format string, v ...any) {}
-
-func (l *Log) Warn(content string) {}
-
-func (l *Log) Warnf(format string, v ...any) {}
-
-func (l *Log) Info(content string) {}
-
-func (l *Log) Infof(format string, v ...any) {}
-
-func (l *Log) Error(content string) {}
-
-func (l *Log) Errorf(format string, v ...any) {}
-
+- 实现基本日志功能及终端打印控制、堆栈追踪、定时滚动、UDP 异步缓冲聚合日志等；
+- 对比 Uber-Zap (2552 ns/op vs 2758 ns/op)，性能接近主流高性能库；
+```shell
+yzletter@yangzhileideMacBook-Pro go-toolery % go test ./loggerx -bench=^Benchmark -run=^$ -count=1 -benchmem    
+goos: darwin
+goarch: arm64
+pkg: github.com/yzletter/go-toolery/loggerx
+cpu: Apple M1 Pro
+BenchmarkMyLogger-10              453636              2552 ns/op             616 B/op          9 allocs/op
+BenchmarkZap-10                   422684              2758 ns/op             529 B/op          7 allocs/op
+BenchmarkZapSugar-10              408788              2956 ns/op             537 B/op          9 allocs/op
+PASS
+ok      github.com/yzletter/go-toolery/loggerx  4.062s 
 ```
 
 ## 手写 RPC 框架 (Rpcx)
 
-### 手写参数序列化
-
-```go
-
-// 支持的数据类型
-const (
-	TypeInt = iota
-	TypeFloat32
-	TypeFloat64
-	TypeString
-	TypeBool
-)
-
-// MAGIC 魔数
-var MAGIC = [...]byte{23, 37, 111, 51}
-
-type MySerializer struct {
-}
-
-func (m MySerializer) Marshal(object any) ([]byte, error) {}
-
-func (m MySerializer) Unmarshal(buffer []byte, object any) error {}
-
-// MarshalArguments 将一批参数序列化
-func MarshalArguments(arguments ...any) ([]byte, error) {}
-
-// UnmarshalArguments 反序列化一个数据流
-func UnmarshalArguments(bs []byte) ([]any, error) {}
-
-// IntToBytes Int 转 []Byte
-func IntToBytes(n int) []byte {}
-
-// BytesToInt []Byte 转 Int
-func BytesToInt(bs []byte) int {}
-
-// 序列化单个参数
-func marshalArgument(argument any, buffer *bytes.Buffer) (byte, int, error) {}
-
-// 反序列化单个参数
-func unmarshallArgument(argumentType byte, argumentBS []byte) (any, error) {}
-
-func setValue(kind reflect.Kind, objValue reflect.Value, argument any) error {}
-
+- 实现参数序列化和反序列化，实现 RPC 调用功能；
+- 对比 ByteDance-Sonic (1749 ns/op vs 701.3 ns/op)，性能接近主流高性能库；
+```shell
+yzletter@yangzhileideMacBook-Pro go-toolery % go test ./rpcx/serializer/test -bench=^Benchmark -run=^$ -count=1 -benchmem 
+goos: darwin
+goarch: arm64
+pkg: github.com/yzletter/go-toolery/rpcx/serializer/test
+cpu: Apple M1 Pro
+BenchmarkBytedance-10            1680181               701.3 ns/op           523 B/op          6 allocs/op
+BenchmarkGob-10                   115826              9968 ns/op            9048 B/op        187 allocs/op
+BenchmarkMySerializer-10          671557              1749 ns/op            1816 B/op         60 allocs/op
+PASS
+ok      github.com/yzletter/go-toolery/rpcx/serializer/test     4.970s
 ```
 
-### 手写 RPC 调用
-
-#### Client 端
-
-```go
-type EchoClient struct {
-	conn          net.Conn
-	s             serializer.Serializer
-	requestBuffer sync.Map
-}
-
-func NewClient(serverIP string, port int, s serializer.Serializer) *EchoClient {}
-
-func (client *EchoClient) receive() {}
-
-// Call 发起调用
-func (client *EchoClient) Call(req *rpcx.RpcxData) *rpcx.RpcxData {}
-
-```
-
-#### Server 端
-
-```go
-type EchoServer struct {
-	conn *net.UDPConn          // 面向报文
-	s    serializer.Serializer // 序列化接口
-}
-
-// NewServer 构造函数
-func NewServer(port int, s serializer.Serializer) *EchoServer {}
-
-func (server EchoServer) Serve() {}
-
-// 业务处理
-func (server EchoServer) handle(request []byte, remoteAddr *net.UDPAddr) {}
-
-```
-
-## 工程辅助
-
-### 手写 JWT 认证 (Jwtx)
-
-```go
-// GenJWT 根据 payload 和 secret 生成 JWT, 返回生成的 JWT token 和可能的错误
-func GenJWT(payload JwtPayload, secret string) (string, error) {}
-
-// VerifyJWT 根据传入的 JWT token 和 secret 校验 JWT 的合法性
-func VerifyJWT(jwtToken string, secret string) (*JwtPayload, error) {}
-
-// 对结构体依次进行 json 序列化和 base64 编码
-func marshalBase64Encode(v any) (string, error) {}
-
-// 对字符串依次进行 base64 解码和 json 反序列化
-func base64DecodeUnmarshal(s string, v any) error {}
-
-// 用 sha256 哈希算法生成 JWT 签名, 传入 JWT Token 的前两部分和密钥, 返回生成的签名字符串
-func signSha256(jwtMsg string, secret string) string {}
-```
-
-### 手写 PKCS7 数据填充
-
-```go
-// Padding 将数据填充, 填充至 blockSize 的整数倍, 返回填充好的切片
-func Padding(src []byte, blockSize int) []byte {}
-
-// UnPadding 将数据还原, 返回填充好的切片和可能存在的错误
-func UnPadding(src []byte, blockSize int) ([]byte, error) {}
-```
-
-### 手写 Jaccard 相似度
-
-```go
-// Jaccard 计算相似度 = 交集 / 并集
-func Jaccard[T comparable](collection1, collection2 []T) (float64, error) {}
-
-// JaccardForSorted 计算有序集合的相似度
-func JaccardForSorted[T cmp.Ordered](collection1, collection2 []T) (float64, error) {}
-```
-
-### 手写 Slugify 函数
-
-```go
-// Slugify 将字符串转为唯一标识 + 六位 Hash 结果(防止冲突） eg: GoLang学习 -> golang-xue-xi-1fcbf8
-func Slugify(name string) string {}
-
-```
+## 
