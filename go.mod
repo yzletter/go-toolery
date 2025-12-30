@@ -4,6 +4,7 @@ go 1.25.3
 
 require (
 	github.com/bytedance/sonic v1.14.2
+	github.com/dgryski/go-farm v0.0.0-20240924180020-3414d57e47da
 	github.com/google/uuid v1.6.0
 	github.com/mozillazg/go-pinyin v0.21.0
 	github.com/stretchr/testify v1.10.0
