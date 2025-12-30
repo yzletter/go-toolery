@@ -1,23 +1,23 @@
-package treex_test
+package binary_tree_test
 
 import (
 	"fmt"
 	"testing"
 
-	"github.com/yzletter/go-toolery/datastructurex/treex"
+	"github.com/yzletter/go-toolery/datastructurex/treex/binary_tree"
 )
 
 func TestBinaryTree(t *testing.T) {
-	node := &treex.BNode{
+	node := &binary_tree.BNode{
 		Val: 5,
 	}
-	root := treex.NewBinaryTree(node)
-	node3 := treex.NewBNode(3)
-	node4 := treex.NewBNode(4)
-	node1 := treex.NewBNode(1)
-	node6 := treex.NewBNode(6)
-	node7 := treex.NewBNode(7)
-	node9 := treex.NewBNode(9)
+	root := binary_tree.NewBinaryTree(node)
+	node3 := binary_tree.NewBNode(3)
+	node4 := binary_tree.NewBNode(4)
+	node1 := binary_tree.NewBNode(1)
+	node6 := binary_tree.NewBNode(6)
+	node7 := binary_tree.NewBNode(7)
+	node9 := binary_tree.NewBNode(9)
 
 	root.Root.LeftChind = node3
 	root.Root.RightChind = node4
@@ -29,7 +29,7 @@ func TestBinaryTree(t *testing.T) {
 	//				5
 	//		3				4
 	//	1		6		7		9
-	var printNode = func(node *treex.BNode) {
+	var printNode = func(node *binary_tree.BNode) {
 		fmt.Printf("%v ", node.Val)
 	}
 	root.PreOrder(printNode) // 前序 : 5 3 1 6 4 7 9

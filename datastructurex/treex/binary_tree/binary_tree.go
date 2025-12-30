@@ -1,4 +1,4 @@
-package treex
+package binary_tree
 
 import (
 	"github.com/yzletter/go-toolery/datastructurex/dequeuex"

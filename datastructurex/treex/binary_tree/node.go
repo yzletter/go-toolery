@@ -1,4 +1,4 @@
-package treex
+package binary_tree
 
 // NodeOperationFunc 对二叉树节点的操作函数
 type BNodeOperationFunc func(node *BNode)
