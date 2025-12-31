@@ -46,7 +46,27 @@ ok      github.com/yzletter/go-toolery/rpcx/serializer/test     4.970s
 
 - 手写二分查找 (BinarySearch)
 
+  对比  sort.Slice (560753667 ns/op vs 819695230 ns/op)，性能接近主流高性能库；
+
 - 手写快排 (QuickSort)
+
+  - 对比  sort.Slice (560753667 ns/op vs 819695230 ns/op)，性能接近主流高性能库；
+
+
+  ```shell
+  yzletter@yangzhileideMacBook-Pro go-toolery % go test ./algorithmx -bench=Benchmark -run=^$ -benchmem
+  goos: darwin
+  goarch: arm64
+  pkg: github.com/yzletter/go-toolery/algorithmx
+  cpu: Apple M1 Pro
+  BenchmarkQuickSort-10                  2         560753667 ns/op        82002064 B/op       1002 allocs/op
+  BenchmarkSliceSort-10                  2         819695230 ns/op        82058080 B/op       3004 allocs/op
+  PASS
+  ok      github.com/yzletter/go-toolery/algorithmx       4.738s
+  ```
+
+  
+
 
 ## 手写数据结构 (DataStructurex)
 
