@@ -6,9 +6,10 @@ type TrieNode struct {
 	Term     string
 }
 
+// 给子节点的 Word 赋值 term[idx]
 func (node *TrieNode) add(term string, idx int) {
 	if idx >= len([]rune(term)) {
-		node.Term = term
+		node.Term = term // 当前节点是终点
 		return
 	}
 
