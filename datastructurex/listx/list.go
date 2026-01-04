@@ -99,6 +99,25 @@ func (list *LinkedList[T]) FindNode(idx int) (node *ListNode[T], err error) {
 	return nowNode, nil
 }
 
+// FindNodeByValue 找到第一个 value 为 x 的节点, 返回节点, 下标和可能的错误
+func (list *LinkedList[T]) FindNodeByValue(x T) (node *ListNode[T], err error) {
+	var empty *ListNode[T]
+	if list.Length == 0 {
+		return nil, errx.ErrLinkedListEmpty
+	}
+
+	now := list.Head.Next
+	idx := 0
+	for now.Next != nil {
+		if now.Val == x {
+			return now, nil
+		}
+		now = now.Next
+		idx++
+	}
+	return empty, nil
+}
+
 // Values 将链表值转为切片
 func (list *LinkedList[T]) Values() []T {
 	arr := make([]T, list.Length)
@@ -126,6 +145,31 @@ func (list *LinkedList[T]) FirstNode() (*ListNode[T], error) {
 		return nil, errx.ErrLinkedListEmpty
 	}
 	return list.Head.Next, nil
+}
+
+// DeleteLastNode 删除尾节点
+func (list *LinkedList[T]) DeleteLastNode() error {
+	if list.Length == 0 {
+		return errx.ErrLinkedListEmpty
+	}
+
+	node := list.Head.Prev
+	list.Head.Prev.Prev.Next = list.Head
+	list.Head.Prev = list.Head.Prev.Prev
+
+	node.Next = nil
+	node.Prev = nil
+
+	return nil
+}
+
+// MoveToHead 把当前节点移到首位
+func (list *LinkedList[T]) MoveToHead(node *ListNode[T]) {
+	DeleteNode(node)
+	list.Head.Next.Prev = node
+	node.Next = list.Head.Next
+	node.Prev = list.Head
+	list.Head.Next = node
 }
 
 // todo

@@ -56,6 +56,22 @@ func TestLinkedList(t *testing.T) {
 	fmt.Println("在下标为 3 的节点前后各插一个 6 : ")
 	// 预期结果 : 1 2 3 6 4 6 5
 	l1.Traverse(printNodeInformation)
+	fmt.Println()
+
+	// 删除最后一个节点
+	_ = l1.DeleteLastNode()
+	// 预期结果 : 1 2 3 6 4 6
+	l1.Traverse(printNodeInformation)
+	fmt.Println()
+
+	// 删除最后一个节点
+	_ = l1.DeleteLastNode()
+	// 预期结果 : 1 2 3 6 4
+	l1.Traverse(printNodeInformation)
+	fmt.Println()
+
+	node, _ = l1.FindNodeByValue(3)
+	fmt.Println(node)
 }
 
-// go test -v ./data_structure/listx -run=^TestLinkedList$ -count=1
+// go test -v ./datastructurex/listx -run=^TestLinkedList$ -count=1
