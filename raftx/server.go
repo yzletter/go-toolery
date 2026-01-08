@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log/slog"
 	"reflect"
+	"sort"
 	"sync"
 	"time"
 
@@ -326,18 +327,148 @@ func (server *Server) print() {
 }
 
 func (server *Server) processAppendEntriesRequest(req *AppendEntriesRequest) *AppendEntriesResponse {
+	if req.Term < server.term {
+		return &AppendEntriesResponse{
+			FollowerID:   server.ID,
+			Term:         server.term,
+			CommitIndex:  server.log.CommitIndex(),
+			LastLogIndex: server.log.LastLogIndex(),
+			Success:      false,
+		}
+	}
 
+	// 升级term，把votedFor清空，重置leaderId，把自己降为follower
+	server.upgradeTerm(req.Term, req.LeaderID)
+
+	if len(req.LogEntries) == 0 {
+		return &AppendEntriesResponse{
+			FollowerID:   server.ID,
+			Term:         server.term,
+			CommitIndex:  server.log.CommitIndex(),
+			LastLogIndex: server.log.LastLogIndex(),
+			Success:      false,
+		}
+	}
+
+	ok := server.log.AppendEntries(req.PrevLogIndex, req.PrevLogTerm, req.LogEntries)
+
+	// 先更新 CommitIndex 再返回, 因为但只接收了部分
+	commitIndex := min(server.log.LastLogIndex(), req.CommitIndex)
+	server.log.SetCommitIndex(commitIndex)
+
+	if !ok {
+		return &AppendEntriesResponse{
+			FollowerID:   server.ID,
+			Term:         server.term,
+			CommitIndex:  server.log.CommitIndex(),
+			LastLogIndex: server.log.LastLogIndex(),
+			Success:      false,
+		}
+	}
+
+	return &AppendEntriesResponse{
+		FollowerID:   server.ID,
+		Term:         server.term,
+		CommitIndex:  server.log.CommitIndex(),
+		LastLogIndex: server.log.LastLogIndex(),
+		Success:      true,
+	}
 }
 
 func (server *Server) processVoteRequest(req *VoteRequest) *VoteResponse {
+	if req.Term > server.term {
+		server.upgradeTerm(req.Term, "")
+	} else if req.Term < server.term { // 拒绝投票
+		return &VoteResponse{Term: server.term, Granted: false}
+	} else if len(server.votedFor) > 0 && server.votedFor != req.CandidateID {
+		// 同 Term 内给别的 Candidate 投过票了
+		return &VoteResponse{Term: server.term, Granted: false}
+	}
 
+	lastLogIndex, lastLogTerm := server.log.LastLogInfo()
+	if req.LastLogIndex < lastLogIndex || req.LastLogTerm < lastLogTerm {
+		return &VoteResponse{Term: server.term, Granted: false}
+	}
+
+	// 进行投票
+	server.upgradeTerm(req.Term, req.CandidateID)
+	server.votedFor = req.CandidateID
+	return &VoteResponse{Term: server.term, Granted: true}
 }
 
+// Leader 操作
+
+// 处理 AE 响应
 func (leader *Server) processAppendEntriesResponse(resp *AppendEntriesResponse) {
+	if resp.Term > leader.term {
+		leader.upgradeTerm(resp.Term, "") // 升级term，把votedFor清空，重置leaderId，把自己降为follower。此时还不能确定谁是Leader，先把LeaderId置空，收到心跳后就知道谁是Leader了。目前代码里也没有使用leaderId
+		return
+	}
+
+	// 更新 PrevLogIndex
+	leader.prevLogIndex[resp.FollowerID] = resp.LastLogIndex
+
+	// Follower 没有接收AE请求
+	if !resp.Success {
+		return
+	}
+
+	// Follower 接收了 AE 请求, 更新 Leader 的 CommitIndex
+	var indices []int64
+
+	// 将 Leader 自己的 LastLogIndex 加进去
+	indices = append(indices, leader.log.LastLogIndex())
+
+	// 将所有 Follower 的 LastLogIndex 加进去
+	for _, follower := range leader.peers {
+		indices = append(indices, leader.prevLogIndex[follower.ID])
+	}
+
+	// 将所有节点的 LastLogIndex 进行排序
+	sort.Slice(indices, func(i, j int) bool {
+		return indices[i] < indices[j]
+	})
+
+	// 计算新的 CommitIndex
+	commitIndex := indices[leader.QuorumSize()-1]
+
+	// 判断是否需要更新 CommitIndex
+	if commitIndex > leader.log.commitIndex {
+		leader.log.SetCommitIndex(commitIndex)
+	}
 }
 
+// 处理 Client Command
 func (leader *Server) processCommand(command NoopCommand) {
+	leader.log.CreateEntry(command)
 }
 
+// 发送心跳
 func (leader *Server) doHeartBeat() {
+	for _, peer := range leader.peers {
+		leader.routineGroup.Add(1)
+		go func(peer *Peer) {
+			defer leader.routineGroup.Done()
+
+			prevLogIndex := leader.prevLogIndex[peer.ID]
+			entries, prevLogTerm := leader.log.GetEntriesAfter(prevLogIndex)
+			req := AppendEntriesRequest{
+				LeaderID:     leader.ID,
+				Term:         leader.term,
+				CommitIndex:  leader.log.CommitIndex(),
+				PrevLogIndex: prevLogIndex,
+				PrevLogTerm:  prevLogTerm,
+				LogEntries:   entries,
+			}
+
+			resp, err := leader.transporter.AppendEntries(peer, &req)
+			if err == nil {
+				rpc := RPC{
+					Command: resp,
+				}
+				leader.rpcCh <- rpc // 响应放入 ch
+			}
+
+		}(peer)
+	}
 }
