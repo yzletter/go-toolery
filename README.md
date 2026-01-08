@@ -6,7 +6,11 @@
 
 ## 对比无参考意义，仅供个人学习使用
 
-纯代码量：2500 + 行
+纯代码量：3550 + 行
+
+## 手写 Raft 分布式一致性算法 (Raftx)
+
+  - 实现 Raft 角色与状态机、Leader 选举、日志复制与心跳、一致性校验与冲突处理、提交与应用日志等功能；
 
 ## 手写高性能 Log (Loggerx)
 
@@ -42,11 +46,15 @@ PASS
 ok      github.com/yzletter/go-toolery/rpcx/serializer/test     4.970s
 ```
 
+## 手写 JWT 认证 (Jwtx)
+
+- 实现根据 payload 生成 JWT Token 和 校验 JWT Token 合法性的功能；
+
 ## 手写传统算法 (Algorithmx)
 
 - 手写二分查找 (BinarySearch)
 
-  对比  sort.Slice (560753667 ns/op vs 819695230 ns/op)，性能接近主流高性能库；
+  - 对比  sort.Slice (560753667 ns/op vs 819695230 ns/op)，性能接近主流高性能库；
 
 - 手写快排 (QuickSort)
 
@@ -126,4 +134,4 @@ ok      github.com/yzletter/go-toolery/rpcx/serializer/test     4.970s
 
 - 手写 Slugify 函数
 
-## 手写 JWT 认证 (Jwtx)
+## 
