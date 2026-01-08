@@ -87,6 +87,9 @@ func (log *Log) CommitIndex() int64 {
 
 // 查找 Index 为 target 的 Entry
 func (log *Log) findByIndex(target int64) (int, *LogEntry) {
+	if len(log.entries) == 0 {
+		return -1, nil
+	}
 	// log index 是递增的, 但不一定连续
 	l, r := 0, len(log.entries)-1
 	for l < r {

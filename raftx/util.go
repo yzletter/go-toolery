@@ -13,7 +13,7 @@ func randomTimeout(timeout time.Duration) <-chan time.Time {
 		return nil
 	}
 	duration := time.Duration(rand.Int64()) % timeout
-	return time.After(duration)
+	return time.After(timeout + duration)
 }
 
 // 把 thePath 拼接到 connString 后面

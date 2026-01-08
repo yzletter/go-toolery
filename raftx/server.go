@@ -100,6 +100,9 @@ func (server *Server) SetState(state State) {
 	defer server.Unlock()
 
 	server.state = state
+	if state == Leader {
+		server.leaderID = server.ID
+	}
 }
 
 func (server *Server) Start(restart bool) {
@@ -316,12 +319,13 @@ func (server *Server) print() {
 	for {
 		<-ticker.C
 		if server.GetState() == Leader {
-			fmt.Println("raft cluster info", "leader", server.ID, "log index", server.log.LastLogIndex(), "commit index", server.log.CommitIndex())
+			fmt.Println("Raftx Cluster Information", "Leader", server.ID, "LastLogIndex", server.log.LastLogIndex(), "CommitIndex", server.log.CommitIndex())
 
 			for _, peer := range server.peers {
 				prevLogIndex := server.prevLogIndex[peer.ID]
-				fmt.Println("raft cluster info", "follower", peer.ID, "log index", prevLogIndex)
+				fmt.Println("Raftx Cluster Information", "Follower", peer.ID, "LastLogIndex", prevLogIndex)
 			}
+			fmt.Println("---------------------------------------")
 		}
 	}
 }
@@ -433,9 +437,7 @@ func (leader *Server) processAppendEntriesResponse(resp *AppendEntriesResponse) 
 	commitIndex := indices[leader.QuorumSize()-1]
 
 	// 判断是否需要更新 CommitIndex
-	if commitIndex > leader.log.commitIndex {
-		leader.log.SetCommitIndex(commitIndex)
-	}
+	leader.log.SetCommitIndex(commitIndex)
 }
 
 // 处理 Client Command
@@ -471,4 +473,12 @@ func (leader *Server) doHeartBeat() {
 
 		}(peer)
 	}
+}
+
+func (leader *Server) Do(command NoopCommand) {
+	rpc := RPC{
+		Command:      command,
+		ResponseChan: make(chan RPCResponse),
+	}
+	leader.rpcCh <- rpc //把请求放进去
 }

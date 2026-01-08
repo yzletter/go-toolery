@@ -4,7 +4,7 @@ import "time"
 
 const (
 	HeartBeatInterval         = 20 * time.Millisecond  // 心跳间隔, 由于收到 Log Entry 后还需要写磁盘, 所以时间不能太短, 建议 0.5 - 20ms
-	ElectionTimeout           = 250 * time.Millisecond // 心跳等待超时, Follower 多久接收不到心跳就变为 Candidate, 这个时间要明显大于 HeartBeatInterval
+	ElectionTimeout           = 150 * time.Millisecond // 心跳等待超时, Follower 多久接收不到心跳就变为 Candidate, 这个时间要明显大于 HeartBeatInterval
 	LeaderChangeTimeout       = 500 * time.Millisecond // 选主等待超时, 建议 10 - 500ms, 要明显大于 HeartBeatInterval
 	MaxLogEntriesPerHeartBeat = 100                    // 每次 AE 最多发送多少条日志, 太多了会超过 rpc data size 的限制, 也会让 leader 阻塞更长时间
 )
