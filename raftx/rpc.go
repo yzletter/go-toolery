@@ -33,6 +33,10 @@ type ResponseInterface interface {
 	*VoteResponse | *AppendEntriesResponse
 }
 
+func (r *RPC) Respond(resp interface{}, err error) {
+	r.ResponseChan <- RPCResponse{resp, err}
+}
+
 // Transporter 负责通过网络发送 Request 和 Response, 可以基于 TCP、UDP、TLS、HTTP、GRPC 来实现
 type Transporter interface {
 	Start(port int, server *Server)

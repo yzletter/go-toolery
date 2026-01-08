@@ -19,6 +19,8 @@ var (
 	ErrAliasInvalidParam          = errors.New("go-toolery utilx : Alias 传入非法参数")
 	ErrBloomFilterDumpFailed      = errors.New("go-toolery utilx : BloomFilter 导出文件失败")
 	ErrBloomFilterLoadailed       = errors.New("go-toolery utilx : BloomFilter 从文件导入失败")
+
+	ErrNotLeader = errors.New("go-toolery raftx : 当前节点不是 Leader")
 )
 
 var (
