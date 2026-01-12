@@ -54,3 +54,31 @@ func InnerProduct(vector1, vector2 []float64) (float64, error) {
 
 	return sum, nil
 }
+
+// AvgOfVector 多个向量按位求平均
+func AvgOfVector(vectors [][]float64) ([]float64, error) {
+	n := len(vectors)
+	if n == 0 {
+		return nil, errx.ErrMathInvalidParam
+	} else if n == 1 {
+		// 向量归一化
+		return NormVector(vectors[0])
+	}
+
+	l := len(vectors[0])
+	sum := make([]float64, l)
+	for i := 0; i < n; i++ {
+		if len(vectors[i]) != l {
+			return nil, errx.ErrMathInvalidParam
+		}
+		for j := 0; j < l; j++ {
+			sum[j] += vectors[i][j] // 按位求和
+		}
+	}
+	for j := 0; j < l; j++ {
+		sum[j] /= float64(n) // 按位求平均
+	}
+
+	// 向量归一化
+	return NormVector(sum)
+}
