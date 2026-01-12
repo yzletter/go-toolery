@@ -21,6 +21,8 @@ var (
 	ErrBloomFilterLoadailed       = errors.New("go-toolery utilx : BloomFilter 从文件导入失败")
 
 	ErrNotLeader = errors.New("go-toolery raftx : 当前节点不是 Leader")
+
+	ErrMathInvalidParam = errors.New("go-toolery math : 传入非法参数")
 )
 
 var (
