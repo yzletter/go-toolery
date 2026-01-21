@@ -53,14 +53,9 @@ ok      github.com/yzletter/go-toolery/rpcx/serializer/test     4.970s
 ## 手写传统算法 (Algorithmx)
 
 - 手写二分查找 (BinarySearch)
-
   - 对比  sort.Slice (560753667 ns/op vs 819695230 ns/op)，性能接近主流高性能库；
-
 - 手写快排 (QuickSort)
-
   - 对比  sort.Slice (560753667 ns/op vs 819695230 ns/op)，性能接近主流高性能库；
-
-
   ```shell
   yzletter@yangzhileideMacBook-Pro go-toolery % go test ./algorithmx -bench=Benchmark -run=^$ -benchmem
   goos: darwin
@@ -72,9 +67,6 @@ ok      github.com/yzletter/go-toolery/rpcx/serializer/test     4.970s
   PASS
   ok      github.com/yzletter/go-toolery/algorithmx       4.738s
   ```
-
-  
-
 
 ## 手写数据结构 (DataStructurex)
 
@@ -95,29 +87,19 @@ ok      github.com/yzletter/go-toolery/rpcx/serializer/test     4.970s
   ```
 
 - 手写带头结点的双向循环链表 (Listx)
-
 - 手写集合 (Setx)
-
 - 手写栈 (Stackx)
-
 - 手写双端队列 (DeQueuex)
-
 - 手写堆 (PriorityQueuex)
-
 - 手写树 (Treex)
-
   - 手写二叉树
-  
   - 手写 Trie 树
 
 ## 手写标准库辅助 (Standardx)
 
 - 手写 Slice 辅助 (Slicex)
-
 - 手写 Math 辅助 (Mathx)
-
 - 手写 Rand 辅助 (Randx)
-
 - 手写 Function 辅助
 
 ## 手写工程辅助 (Utilx)
@@ -134,4 +116,22 @@ ok      github.com/yzletter/go-toolery/rpcx/serializer/test     4.970s
 
 - 手写 Slugify 函数
 
-## 
+- 手写 Snowflake 雪花算法
+
+  - 对比  bwmarrin/snowflake (53.28 ns/op vs 119.8 ns/op)，性能接近主流高性能库；
+
+  ```shell
+  yzletter@yangzhileideMacBook-Pro go-toolery % go test ./utilx -bench=^BenchmarkSnow -run=^$ -benchmem -count=1
+  goos: darwin
+  goarch: arm64
+  pkg: github.com/yzletter/go-toolery/utilx
+  cpu: Apple M1 Pro
+  BenchmarkSnowflake-10                   21216313                53.28 ns/op            0 B/op          0 allocs/op
+  BenchmarkSnowflakeByBwmarrin-10         10079784               119.8 ns/op            96 B/op          1 allocs/op
+  PASS
+  ok      github.com/yzletter/go-toolery/utilx    2.901s
+  ```
+
+  
+
+  
