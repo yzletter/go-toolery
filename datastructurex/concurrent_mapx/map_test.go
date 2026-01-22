@@ -28,7 +28,21 @@ func TestConcurrentMap(t *testing.T) {
 
 }
 
+func TestConcurrentHashMapIterator(t *testing.T) {
+	MyMap := concurrent_mapx.NewConcurrentMap(8, 1000)
+	for i := 0; i < 10; i++ {
+		MyMap.Set(strconv.Itoa(i), i)
+	}
+	iterator := MyMap.NewConcurrentMapIterator()
+	entry := iterator.Next()
+	for entry != nil {
+		fmt.Println(entry.Key, entry.Value)
+		entry = iterator.Next()
+	}
+}
+
 // go test -v ./datastructurex/concurrent_mapx -run=^TestConcurrentMap$ -count=1
+// go test -v ./datastructurex/concurrent_mapx -run=^TestConcurrentHashMapIterator$ -count=1
 
 const P = 300
 const T = 10000
